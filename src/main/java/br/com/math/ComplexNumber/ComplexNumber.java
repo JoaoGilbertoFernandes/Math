@@ -1,7 +1,7 @@
-package br.com.math.ComplexNumber;
+package br.com.math.complexNumber;
 
-import br.com.math.Vector.Vector;
-import br.com.math.Vector.Vector2D;
+import br.com.math.vector.Vector;
+import br.com.math.vector.Vector2D;
 
 import java.util.ArrayList;
 import java.util.List;

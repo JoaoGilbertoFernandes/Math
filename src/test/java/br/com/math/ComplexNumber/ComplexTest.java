@@ -1,4 +1,4 @@
-package br.com.math.ComplexNumber;
+package br.com.math.complexNumber;
 
 public class ComplexTest {
 

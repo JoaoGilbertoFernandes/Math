@@ -1,6 +1,10 @@
-package br.com.math.Function;
+package br.com.math.function;
 
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.IntStream;
+
+import static br.com.math.MathUtils.factorial;
 
 public interface DifferentiableFunction extends Function<Double, Double> {
 
@@ -15,5 +19,14 @@ public interface DifferentiableFunction extends Function<Double, Double> {
             result = result.derivative();
         }
         return result;
+    }
+
+    default PolynomialFunction taylorSeries(int order) {
+        if (this instanceof PolynomialFunction) return (PolynomialFunction) this;
+        List<Double> terms = IntStream.range(0, order)
+                .mapToObj(i -> derivative(i).apply(0.0) / factorial(i))
+                .toList();
+
+        return new PolynomialFunction(terms);
     }
 }

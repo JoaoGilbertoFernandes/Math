@@ -1,7 +1,7 @@
-package br.com.math.Vector;
+package br.com.math.vector;
 
-import br.com.math.Matrix.ColumnMatrix;
-import br.com.math.Matrix.Matrix;
+import br.com.math.matrix.ColumnMatrix;
+import br.com.math.matrix.Matrix;
 
 import java.util.ArrayList;
 import java.util.Arrays;

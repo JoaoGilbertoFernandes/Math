@@ -1,6 +1,6 @@
-package br.com.math.Function;
+package br.com.math.function;
 
-import br.com.math.Vector.Vector;
+import br.com.math.vector.Vector;
 
 import java.util.List;
 import java.util.Objects;

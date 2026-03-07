@@ -1,4 +1,4 @@
-package br.com.math.Matrix;
+package br.com.math.matrix;
 
 import java.util.ArrayList;
 import java.util.Arrays;

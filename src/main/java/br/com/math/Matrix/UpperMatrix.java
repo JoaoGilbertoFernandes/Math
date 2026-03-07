@@ -1,4 +1,4 @@
-package br.com.math.Matrix;
+package br.com.math.matrix;
 
 public class UpperMatrix extends TriangularMatrix {
 

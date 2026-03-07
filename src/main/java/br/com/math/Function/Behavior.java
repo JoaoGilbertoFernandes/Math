@@ -1,4 +1,4 @@
-package br.com.math.Function;
+package br.com.math.function;
 
 public enum Behavior {
     INCREASING,

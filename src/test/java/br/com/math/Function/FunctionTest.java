@@ -1,4 +1,6 @@
-package br.com.math.Function;
+package br.com.math.function;
+
+import static br.com.math.function.TrigonometricType.*;
 
 public class FunctionTest {
 
@@ -21,11 +23,19 @@ public class FunctionTest {
         System.out.println(function.getDegree());
         */
 
+        /*
         QuadraticFunction function = new QuadraticFunction(-6.0,-1.0,1.0);
 
         System.out.println(function.vertexForm());
 
         PolynomialFunction derivative = function.derivative(2);
+         */
+
+        DifferentiableFunction function = new TrigonometricFunction(COSINE);
+        PolynomialFunction serie = function.taylorSeries(10);
+        System.out.println(serie);
+        System.out.println(serie.apply(1.0));
+        System.out.println(function.apply(1.0));
 
     }
 }

@@ -1,4 +1,4 @@
-package br.com.math.Function;
+package br.com.math.function;
 
 import java.util.ArrayList;
 import java.util.List;

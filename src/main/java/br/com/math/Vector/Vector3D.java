@@ -1,6 +1,6 @@
-package br.com.math.Vector;
+package br.com.math.vector;
 
-import br.com.math.Matrix.Matrix;
+import br.com.math.matrix.Matrix;
 
 public class Vector3D extends Vector {
 

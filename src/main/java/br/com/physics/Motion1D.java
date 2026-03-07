@@ -1,6 +1,6 @@
 package br.com.physics;
 
-import br.com.math.Function.DifferentiableFunction;
+import br.com.math.function.DifferentiableFunction;
 
 
 public class Motion1D {

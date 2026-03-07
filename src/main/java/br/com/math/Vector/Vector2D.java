@@ -1,4 +1,4 @@
-package br.com.math.Vector;
+package br.com.math.vector;
 
 
 public class Vector2D extends Vector {

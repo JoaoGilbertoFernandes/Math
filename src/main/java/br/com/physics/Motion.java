@@ -1,7 +1,7 @@
 package br.com.physics;
 
-import br.com.math.Function.DifferentiableFunction;
-import br.com.math.Vector.Vector;
+import br.com.math.function.DifferentiableFunction;
+import br.com.math.vector.Vector;
 
 import java.util.List;
 import java.util.Optional;
