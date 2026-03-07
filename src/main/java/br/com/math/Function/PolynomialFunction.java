@@ -1,6 +1,7 @@
 package br.com.math.function;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
@@ -20,6 +21,12 @@ public class PolynomialFunction implements DifferentiableFunction {
         return computeZero(degree);
     }
 
+    public static PolynomialFunction monomial(int degree, double coefficient) {
+        List<Double> coefficients = new ArrayList<>(Collections.nCopies(degree + 1, 0.0));
+        coefficients.set(degree, coefficient);
+        return new PolynomialFunction(coefficients);
+    }
+
     @Override
     public Double apply(Double x) {
         return computeApply(x);
@@ -27,16 +34,6 @@ public class PolynomialFunction implements DifferentiableFunction {
 
     public PolynomialFunction derivative() {
         return computeDerivative();
-    }
-
-    @Override
-    public PolynomialFunction derivative(int order) {
-        if (order == 0) return this;
-        PolynomialFunction result = this;
-        for (int i = 0; i < order; i++) {
-            result = result.derivative();
-        }
-        return result;
     }
 
     public PolynomialFunction integral() {
@@ -66,7 +63,7 @@ public class PolynomialFunction implements DifferentiableFunction {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("f(x) = ").append(String.format("%.2f ", get(0)));
+        sb.append("f(x) = ").append(String.format("%.10f ", get(0)));
         for (int i = 1; i <= degree; i++) {
             sb.append(formatCoefficients(get(i), i));
         }
@@ -78,7 +75,7 @@ public class PolynomialFunction implements DifferentiableFunction {
         if (this == o) return true;
         if (!(o instanceof PolynomialFunction pf)) return false;
         for (int i = 0; i <= degree; i++) {
-            if (Math.abs(get(i) - pf.get(i)) > 1e-9) {
+            if (Math.abs(get(i) - pf.get(i)) > 1e-12) {
                 return false;
             }
         }
@@ -90,8 +87,8 @@ public class PolynomialFunction implements DifferentiableFunction {
         int result = 17;
         for (int i = 0; i < coefficients.size(); i++) {
             double coef = coefficients.get(i);
-            if (Math.abs(coef) > 1e-9) {
-                double normalized = Math.round(coef * 1e9) / 1e9;
+            if (Math.abs(coef) > 1e-12) {
+                double normalized = Math.round(coef * 1e12) / 1e12;
                 result = 31 * result + Double.hashCode(normalized);
                 result = 31 * result + i;
             }
@@ -123,6 +120,7 @@ public class PolynomialFunction implements DifferentiableFunction {
     }
 
     private PolynomialFunction computeDerivative() {;
+        if (degree == 0) return new PolynomialFunction(List.of(0.0));
         List<Double> derivativeCoefficients = IntStream
                 .range(1, coefficients.size())
                 .mapToObj(i -> coefficients.get(i) * i)
@@ -164,16 +162,16 @@ public class PolynomialFunction implements DifferentiableFunction {
     }
 
     private String formatCoefficients(double coef, int power)  {
-        if (Math.abs(coef) < 1e-9) return "";
+        if (Math.abs(coef) < 1e-12) return "";
         StringBuilder part = new StringBuilder();
         if (coef == 1.0) {
             part.append("+ ");
         } else if (coef == -1.0) {
             part.append("- ");
         } else if (coef > 0) {
-            part.append("+ ").append(String.format("%.2f", coef));
+            part.append("+ ").append(String.format("%.10f", coef));
         } else {
-            part.append("- ").append(String.format("%.2f", Math.abs(coef)));
+            part.append("- ").append(String.format("%.10f", Math.abs(coef)));
         }
         if (power == 1) {
             part.append("x ");

@@ -15,16 +15,16 @@ public interface DifferentiableFunction extends Function<Double, Double> {
     default DifferentiableFunction derivative(int order) {
         if (order == 0) return this;
         DifferentiableFunction result = this;
-        for (int i = 0; i < order; i++) {
+        for (int i = 0; i <= order; i++) {
             result = result.derivative();
         }
         return result;
     }
 
-    default PolynomialFunction taylorSeries(int order) {
+    default PolynomialFunction taylorSerie(int order, double point) {
         if (this instanceof PolynomialFunction) return (PolynomialFunction) this;
         List<Double> terms = IntStream.range(0, order)
-                .mapToObj(i -> derivative(i).apply(0.0) / factorial(i))
+                .mapToObj(i -> derivative(i).apply(point) / factorial(i))
                 .toList();
 
         return new PolynomialFunction(terms);
