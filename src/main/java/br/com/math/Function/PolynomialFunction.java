@@ -59,6 +59,10 @@ public class PolynomialFunction implements DifferentiableFunction {
         return coefficients;
     }
 
+    public boolean isZeroFunction() {
+        return coefficients.stream().allMatch(c -> c == 0.0);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

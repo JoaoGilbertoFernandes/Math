@@ -4,6 +4,8 @@ import java.util.function.Function;
 
 public interface DifferentiableFunction extends Function<Double, Double> {
 
+    boolean isZeroFunction();
+
     DifferentiableFunction derivative();
 
     default DifferentiableFunction derivative(int order) {

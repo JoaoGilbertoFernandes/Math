@@ -8,7 +8,6 @@ public class Motion1D {
     private final DifferentiableFunction positionFunction;
     private final DifferentiableFunction speedFunction;
     private final DifferentiableFunction accelerationFunction;
-    private static final double EPSILON = 1e-9;
 
     public Motion1D(DifferentiableFunction equationOfMotion) {
         positionFunction = equationOfMotion;
@@ -64,7 +63,23 @@ public class Motion1D {
     }
 
     public boolean isInRest(double time) {
-        return Math.abs(speedAt(time)) < EPSILON;
+        return Math.abs(speedAt(time)) < 0.0;
+    }
+
+    public boolean isAccelerated(double time) {
+        return accelerationAt(time) * speedAt(time) > 0.0;
+    }
+
+    public boolean isDecelerated(double time) {
+        return accelerationAt(time) * speedAt(time) < 0.0;
+    }
+
+    public boolean isUniform() {
+        return accelerationFunction.isZeroFunction();
+    }
+
+    public boolean isUniformlyAccelerated() {
+        return accelerationFunction.derivative().isZeroFunction();
     }
 
 

@@ -111,6 +111,22 @@ public class Motion {
         return normalAcceleration(time).map(Vector::norm);
     }
 
+    public boolean isUniform() {
+        return acceleration().stream().allMatch(DifferentiableFunction::isZeroFunction);
+    }
+
+    public boolean isUniformlyAccelerated() {
+        return acceleration().stream().allMatch(c -> c.derivative().isZeroFunction());
+    }
+
+    public boolean isAccelerated(double time) {
+        return accelerationAt(time).dotProduct(velocityAt(time)) > 0.0;
+    }
+
+    public boolean isDecelerated(double time) {
+        return accelerationAt(time).dotProduct(velocityAt(time)) < 0.0;
+    }
+
 
     private void validateTime(double time) {
         if (time < 0) throw new IllegalArgumentException("Time cannot be negative");
