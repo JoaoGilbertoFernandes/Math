@@ -25,5 +25,7 @@ public class FunctionTest {
 
         System.out.println(function.vertexForm());
 
+        PolynomialFunction derivative = function.derivative(2);
+
     }
 }

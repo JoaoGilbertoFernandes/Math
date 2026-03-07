@@ -1,6 +1,5 @@
 package br.com.math.Function;
 
-import br.com.Vector.*;
 import br.com.math.Vector.Vector;
 
 import java.util.List;

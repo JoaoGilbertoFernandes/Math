@@ -3,10 +3,9 @@ package br.com.math.Function;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Function;
 import java.util.stream.IntStream;
 
-public class PolynomialFunction implements Function<Double, Double> {
+public class PolynomialFunction implements DifferentiableFunction {
 
     private final int degree;
 
@@ -16,7 +15,6 @@ public class PolynomialFunction implements Function<Double, Double> {
         this.coefficients = setCoefficients(coefficients);
         this.degree = this.coefficients.size() - 1;
     }
-
 
     public static PolynomialFunction zero(int degree) {
         return computeZero(degree);
@@ -31,8 +29,14 @@ public class PolynomialFunction implements Function<Double, Double> {
         return computeDerivative();
     }
 
+    @Override
     public PolynomialFunction derivative(int order) {
-        return computeDerivative(order);
+        if (order == 0) return this;
+        PolynomialFunction result = this;
+        for (int i = 0; i < order; i++) {
+            result = result.derivative();
+        }
+        return result;
     }
 
     public PolynomialFunction integral() {
@@ -121,15 +125,6 @@ public class PolynomialFunction implements Function<Double, Double> {
                 .toList();
 
         return new PolynomialFunction(derivativeCoefficients);
-    }
-
-    private PolynomialFunction computeDerivative(int order) {
-        if (order == 0) return this;
-        PolynomialFunction derivative = this;
-        for (int i = 0; i < order; i++) {
-            derivative = derivative.computeDerivative();
-        }
-        return derivative;
     }
 
     private PolynomialFunction computeIntegral() {
