@@ -26,8 +26,8 @@ public class Vector2D extends Vector {
     }
 
     @Override
-    public Vector2D multiplyByScalar(double value) {
-        Vector result = super.multiplyByScalar(value);
+    public Vector2D multiply(double value) {
+        Vector result = super.multiply(value);
         return new Vector2D(result.get(0), result.get(1));
     }
 

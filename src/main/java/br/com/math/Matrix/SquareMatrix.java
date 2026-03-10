@@ -19,8 +19,8 @@ public class SquareMatrix extends Matrix {
     }
 
 
-    public static SquareMatrix zero(int size) {
-        return new SquareMatrix(size);
+    public static DiagonalMatrix zero(int size) {
+        return new DiagonalMatrix(size);
     }
 
     public int getSize() {
@@ -51,8 +51,8 @@ public class SquareMatrix extends Matrix {
     }
 
     @Override
-    public SquareMatrix multiplyByScalar(double value) {
-        return new SquareMatrix(super.multiplyByScalar(value));
+    public SquareMatrix multiply(double value) {
+        return new SquareMatrix(super.multiply(value));
     }
 
     @Override

@@ -56,8 +56,8 @@ public class RowMatrix extends Matrix {
     }
 
     @Override
-    public RowMatrix multiplyByScalar(double value) {
-        return copyOf(super.multiplyByScalar(value));
+    public RowMatrix multiply(double value) {
+        return copyOf(super.multiply(value));
     }
 
     @Override

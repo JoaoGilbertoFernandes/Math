@@ -39,8 +39,8 @@ public class Vector {
         return new Vector(data);
     }
 
-    public Vector multiplyByScalar(double value) {
-        return new Vector(coordinates.multiplyByScalar(value));
+    public Vector multiply(double value) {
+        return new Vector(coordinates.multiply(value));
     }
 
     public Vector add(Vector other) {
@@ -48,7 +48,7 @@ public class Vector {
     }
 
     public Vector subtract(Vector other) {
-        return add(other.multiplyByScalar(-1));
+        return add(other.multiply(-1));
     }
 
     public double dotProduct(Vector other) {
@@ -61,7 +61,7 @@ public class Vector {
     }
 
     public Vector projection(Vector other) {
-        return other.normalized().multiplyByScalar(dotProduct(other.normalized()));
+        return other.normalized().multiply(dotProduct(other.normalized()));
     }
 
     public Vector rejection(Vector other) {
@@ -78,13 +78,13 @@ public class Vector {
 
     public Vector normalized() {
         validateNormalization();
-        return multiplyByScalar(Math.pow(norm(), -1));
+        return multiply(1 / norm());
     }
 
     public double cosSimilarity(Vector other) {
         validateSize(other);
         if (norm() == 0 || other.norm() == 0) return 0;
-        double value = dotProduct(other) * Math.pow(norm() * other.norm(), -1);
+        double value = dotProduct(other) * 1 / (norm() * other.norm());
         return Math.max(-1.0, Math.min(1.0, value));
     }
 
@@ -156,15 +156,6 @@ public class Vector {
         return equals(Vector.zero(size));
     }
 
-
-    private void validateSize(Vector other) {
-        if (other.size != size) throw new IllegalArgumentException("Vector size doesn't match");
-    }
-
-    private void validateNormalization() {
-        if (norm() == 0.0) throw new ArithmeticException("Cannot normalize zero vector");
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -190,5 +181,16 @@ public class Vector {
     @Override
     public int hashCode() {
         return Objects.hash(size, coordinates);
+    }
+
+
+
+
+    private void validateSize(Vector other) {
+        if (other.size != size) throw new IllegalArgumentException("Vector size doesn't match");
+    }
+
+    private void validateNormalization() {
+        if (norm() == 0.0) throw new ArithmeticException("Cannot normalize zero vector");
     }
 }

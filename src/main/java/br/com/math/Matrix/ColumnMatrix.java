@@ -57,8 +57,8 @@ public class ColumnMatrix extends Matrix {
     }
 
     @Override
-    public ColumnMatrix multiplyByScalar(double value) {
-        return copyOf(super.multiplyByScalar(value));
+    public ColumnMatrix multiply(double value) {
+        return copyOf(super.multiply(value));
     }
 
     @Override

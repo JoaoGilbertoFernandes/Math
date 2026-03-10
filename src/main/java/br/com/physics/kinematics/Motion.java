@@ -1,4 +1,4 @@
-package br.com.physics;
+package br.com.physics.kinematics;
 
 import br.com.math.function.DifferentiableFunction;
 import br.com.math.vector.Vector;
@@ -66,13 +66,13 @@ public class Motion {
 
     public Vector avgVelocity(double initialTime, double finalTime) {
         validateTimeInterval(initialTime, finalTime);
-        return displacement(initialTime, finalTime).multiplyByScalar(1 / (finalTime - initialTime));
+        return displacement(initialTime, finalTime).multiply(1 / (finalTime - initialTime));
     }
 
     public Vector avgAcceleration(double initialTime, double finalTime) {
         validateTimeInterval(initialTime, finalTime);
         return velocityAt(finalTime).subtract(velocityAt(initialTime))
-                .multiplyByScalar(1 / (finalTime - initialTime));
+                .multiply(1 / (finalTime - initialTime));
     }
 
     public double speed(double time) {
@@ -126,6 +126,12 @@ public class Motion {
     public boolean isDecelerated(double time) {
         return accelerationAt(time).dotProduct(velocityAt(time)) < 0.0;
     }
+
+    public double kineticEnergy(double mass, double time) {
+        return 0.5 * mass * Math.pow(speed(time), 2);
+    }
+
+
 
 
     private void validateTime(double time) {

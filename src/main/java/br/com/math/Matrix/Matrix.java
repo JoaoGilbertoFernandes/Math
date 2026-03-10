@@ -274,7 +274,7 @@ public class Matrix {
      */
     public SquareMatrix inverse() {
         validateInverse();
-        return cofactorMatrix().transpose().multiplyByScalar(Math.pow(det(), -1));
+        return cofactorMatrix().transpose().multiply(Math.pow(det(), -1));
     }
 
     /**
@@ -365,8 +365,8 @@ public class Matrix {
      *
      * @param value the number to be multiplied
      */
-    public Matrix multiplyByScalar(double value) {
-        return computeScalarMultiplication(value);
+    public Matrix multiply(double value) {
+        return computeMultiplication(value);
     }
 
     /**
@@ -429,7 +429,7 @@ public class Matrix {
      * {@code matrix.cols != this.cols}
      */
     public Matrix subtract(Matrix matrix) {
-        return add(matrix.multiplyByScalar(-1));
+        return add(matrix.multiply(-1));
     }
 
     /**
@@ -448,6 +448,40 @@ public class Matrix {
         return computeTranspose();
     }
 
+    public boolean hasZeroRow() {
+        for (int i = 0; i < rows; i++) {
+            RowMatrix row = new RowMatrix(getRow(i));
+            if (row.isZero()) return true;
+        }
+        return false;
+    }
+
+    public boolean hasZeroCol() {
+        for (int i = 0; i < cols; i++) {
+            ColumnMatrix col = new ColumnMatrix(getCol(i));
+            if (col.isZero()) return true;
+        }
+        return false;
+    }
+
+    public boolean hasEqualRows() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = i + 1; j < rows; j++) {
+                if (Arrays.equals(data[i], data[j])) return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasEqualCols() {
+        for (int i = 0; i < cols; i++) {
+            for (int j = i + 1; j < cols; j++) {
+                if (Arrays.equals(getCol(i), getCol(j))) return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -457,7 +491,7 @@ public class Matrix {
             else sb.append("[ ");
             for (int j = 0; j < cols; j++) {
                 double val = data[i][j] == 0.0 ? 0.0 : data[i][j];
-                sb.append(String.format("%5.2f", val));
+                sb.append(String.format("%6.2f", val));
                 if (j < cols - 1) sb.append("  ");
             }
             if (i != 0 && i != rows - 1) sb.append(" |\n");
@@ -541,7 +575,7 @@ public class Matrix {
         return new Matrix(result);
     }
 
-    private Matrix computeScalarMultiplication(double value) {
+    private Matrix computeMultiplication(double value) {
         double[][] result = new double[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -568,15 +602,13 @@ public class Matrix {
     private SquareMatrix computePower(int exponent) {
         validateAsSquare();
         validateExponent(exponent);
-        SquareMatrix sm = new SquareMatrix(this);
-        SquareMatrix id = Matrix.identity(rows);
-        if (sm.equals(id)) return id;
+        if (equals(identity(rows))) return identity(rows);
 
-        Matrix result = new Matrix(id);
+        SquareMatrix result = identity(rows);
         for (int i = 0; i < exponent; i++) {
-            result = result.multiply(this) ;
+            result = result.multiplyBySquare(this);
         }
-        return new SquareMatrix(result);
+        return result;
     }
 
     private Matrix computeSubMatrix(int row, int col) {
@@ -609,19 +641,11 @@ public class Matrix {
 
     private double computeDeterminant() {
         validateAsSquare();
-        if (hasZeroRow() || hasZeroCol() || hasEqualRows() || hasEqualCols()) return 0.0;
+        if (hasZeroRow() || hasZeroCol() || hasEqualRows() || hasEqualCols())
+            return 0.0;
+
         int size = rows;
         double det = 0.0;
-        for (int i = 0; i < size; i++) {
-            boolean rowZero = true;
-            boolean colZero = true;
-            for (int j = 0; j < size; j++) {
-                if (data[i][j] != 0) rowZero = false;
-                if (data[j][i] != 0) colZero = false;
-                if (!rowZero && !colZero) break;
-            }
-            if (rowZero || colZero) return 0.0;
-        }
         if (size == 1) return data[0][0];
         if (size == 2) return (data[0][0] * data[1][1]) - (data[1][0] * data[0][1]);
         for (int j = 0; j < size; j++) {
@@ -716,41 +740,6 @@ public class Matrix {
         return new Matrix(newData);
     }
 
-    private boolean hasZeroRow() {
-        for (int i = 0; i < rows; i++) {
-            RowMatrix row = new RowMatrix(getRow(i));
-            if (row.isZero()) return true;
-        }
-        return false;
-    }
-
-    private boolean hasZeroCol() {
-        for (int i = 0; i < cols; i++) {
-            ColumnMatrix col = new ColumnMatrix(getCol(i));
-            if (col.isZero()) return true;
-        }
-        return false;
-    }
-
-    private boolean hasEqualRows() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = i + 1; j < rows; j++) {
-                if (Arrays.equals(data[i], data[j])) return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean hasEqualCols() {
-        for (int i = 0; i < cols; i++) {
-            for (int j = i + 1; j < cols; j++) {
-                if (Arrays.equals(getCol(i), getCol(j))) return true;
-            }
-        }
-        return false;
-    }
-
-
     private static void validateDimensions(int rows, int cols) {
         if (rows <= 0 || cols <= 0) throw new IllegalArgumentException("Invalid dimensions");
     }
@@ -802,25 +791,21 @@ public class Matrix {
 
     private int validateRow(int row) {
         if (row < 0) return 0;
-        if (row >= rows) return rows - 1;
-        return row;
+        return Math.min(row, rows - 1);
     }
 
     private int validateColumn(int col) {
         if (col < 0) return 0;
-        if (col >= cols) return cols - 1;
-        return col;
+        return Math.min(col, cols - 1);
     }
 
     private int validateAddRow(int row) {
         if (row < 0) return 0;
-        if (row >= rows) return rows;
-        return row;
+        return Math.min(row, rows);
     }
 
     private int validateAddCol(int col) {
         if (col < 0) return 0;
-        if (col >= cols) return cols;
-        return col;
+        return Math.min(col, cols);
     }
 }

@@ -1,8 +1,41 @@
 package br.com.math.matrix;
 
+import static br.com.math.matrix.TriangularType.DIAGONAL;
+
 public class DiagonalMatrix extends TriangularMatrix {
 
+    private static final TriangularType TYPE = DIAGONAL;
 
+    public DiagonalMatrix(int size) {
+        super(size, TYPE);
+    }
+
+    public DiagonalMatrix(double[][] data) {
+        super(data, TYPE);
+    }
+
+    public DiagonalMatrix(Matrix matrix) {
+        super(matrix, TYPE);
+    }
+
+    @Override
+    public boolean isLower() {
+        return true;
+    }
+
+    @Override
+    public boolean isSymmetric() {
+        return true;
+    }
+
+    @Override
+    public boolean isUpper() {
+        return true;
+    }
+
+
+
+    /*
     public DiagonalMatrix(int size) {
         super(size);
     }
@@ -133,4 +166,5 @@ public class DiagonalMatrix extends TriangularMatrix {
         if (!matrix.isDiagonal()) throw new IllegalArgumentException("Matrix is not Diagonal");
         if (matrix.det() == 0.0) throw new ArithmeticException("Matrix is singular.");
     }
+     */
 }

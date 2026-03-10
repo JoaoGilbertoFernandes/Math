@@ -1,6 +1,6 @@
 package br.com.math.matrix;
 
-public class TestaMatriz {
+public class TestMatriz {
 
     public static void main(String[] args) {
         /* double[][] elementos1 = new double[2][2];
@@ -64,11 +64,11 @@ public class TestaMatriz {
 //        Matrix isZero = matrix1.multiplyBy(nula);
 //        System.out.println(isZero);
 
-        Matrix A = new Matrix(new double[][]{{2.0, -1.0}, {4.0, 3.0}});
+        Matrix A = new Matrix(new double[][]{{2.0, 1.0, 1.0}, {0.0, 1.0, 2.0}, {1.0, 1.0, 3.0}});
         System.out.println("\n" + A);
 
         Matrix B = new Matrix(new double[][]{{1}, {17}});
 
-        System.out.println("\n" + A.inverse().multiply(B));
+        System.out.println("\n" + A.det());
     }
 }

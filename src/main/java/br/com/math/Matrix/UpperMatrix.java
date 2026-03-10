@@ -1,7 +1,27 @@
 package br.com.math.matrix;
 
+import static br.com.math.matrix.TriangularType.UPPER;
+
 public class UpperMatrix extends TriangularMatrix {
 
+    private static final TriangularType TYPE = UPPER;
+
+    public UpperMatrix(double[][] data) {
+        super(data, TYPE);
+    }
+
+    public UpperMatrix(Matrix matrix) {
+        super(matrix, TYPE);
+    }
+
+    @Override
+    public boolean isUpper() {
+        return true;
+    }
+
+
+
+    /*
     public UpperMatrix(int size) {
         super(size);
     }
@@ -13,7 +33,6 @@ public class UpperMatrix extends TriangularMatrix {
     public UpperMatrix(Matrix matrix) {
         this(matrix.getData());
     }
-
 
     public static UpperMatrix zero(int size) {
         return new UpperMatrix(size);
@@ -29,7 +48,7 @@ public class UpperMatrix extends TriangularMatrix {
 
     @Override
     public UpperMatrix inverse() {
-        validateUpper(super.inverse());
+        validateAsUpper(super.inverse());
         return new UpperMatrix(super.inverse());
     }
 
@@ -56,7 +75,7 @@ public class UpperMatrix extends TriangularMatrix {
     }
 
     private UpperMatrix computeSum(Matrix other) {
-        validateUpper(other);
+        validateAsUpper(other);
         UpperMatrix upp = new UpperMatrix(other);
         if (isZero()) return upp;
         if (upp.isZero()) return this;
@@ -70,7 +89,7 @@ public class UpperMatrix extends TriangularMatrix {
     }
 
     private UpperMatrix computeMultiplication(Matrix other) {
-        validateUpper(other);
+        validateAsUpper(other);
         UpperMatrix upp = new UpperMatrix(other);
         double[][] result = new double[size][size];
         if (other.isZero() || isZero()) return zero(size);
@@ -84,7 +103,8 @@ public class UpperMatrix extends TriangularMatrix {
         return new UpperMatrix(result);
     }
 
-    private static void validateUpper(Matrix matrix) {
+    private static void validateAsUpper(Matrix matrix) {
         if (!matrix.isUpper()) throw new IllegalArgumentException("Matrix is not upper");
     }
+     */
 }

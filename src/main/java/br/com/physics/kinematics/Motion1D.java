@@ -1,4 +1,4 @@
-package br.com.physics;
+package br.com.physics.kinematics;
 
 import br.com.math.function.DifferentiableFunction;
 

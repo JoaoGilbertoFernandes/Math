@@ -27,11 +27,12 @@ public class Vector3D extends Vector {
     }
 
     @Override
-    public Vector3D multiplyByScalar(double value) {
-        Vector result = super.multiplyByScalar(value);
+    public Vector3D multiply(double value) {
+        Vector result = super.multiply(value);
         return new Vector3D(result.get(0), result.get(1), result.get(2));
     }
 
+    @Override
     public Vector3D normalized() {
         Vector result = super.normalized();
         return new Vector3D(result.get(0), result.get(1), result.get(2));

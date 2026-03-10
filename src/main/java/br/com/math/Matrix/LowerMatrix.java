@@ -1,9 +1,27 @@
 package br.com.math.matrix;
 
-import org.jetbrains.annotations.NotNull;
+import static br.com.math.matrix.TriangularType.LOWER;
 
 public class LowerMatrix extends TriangularMatrix {
 
+    private static final TriangularType TYPE = LOWER;
+
+    public LowerMatrix(double[][] data) {
+        super(data, TYPE);
+    }
+
+    public LowerMatrix(Matrix matrix) {
+        super(matrix, TYPE);
+    }
+
+    @Override
+    public boolean isLower() {
+        return true;
+    }
+
+
+
+    /*
     public LowerMatrix(int size) {
         super(size);
     }
@@ -30,7 +48,7 @@ public class LowerMatrix extends TriangularMatrix {
     }
 
     @Override
-    public @NotNull LowerMatrix inverse() {
+    public LowerMatrix inverse() {
         validateLower(super.inverse());
         return new LowerMatrix(super.inverse());
     }
@@ -89,4 +107,5 @@ public class LowerMatrix extends TriangularMatrix {
     private static void validateLower(Matrix matrix) {
         if (!matrix.isLower()) throw new IllegalArgumentException("Matrix is not lower");
     }
+     */
 }

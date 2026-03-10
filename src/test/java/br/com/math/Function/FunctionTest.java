@@ -33,11 +33,11 @@ public class FunctionTest {
         PolynomialFunction derivative = function.derivative(2);
          */
 
-        DifferentiableFunction function = new ExponentialFunction(10, 1.0).derivative();
+        DifferentiableFunction function = new ExponentialFunction(Math.E, 1.0);
 
-        PolynomialFunction serie = function.taylorSerie(5, 0.999);
+        PolynomialFunction serie = function.taylorSerie(10, 0.0);
         IO.println(serie);
-        IO.println(serie.apply(0.001));
+        IO.println(serie.apply(1.0));
         IO.println(function.apply(1.0));
 
     }

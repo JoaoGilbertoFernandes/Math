@@ -12,6 +12,13 @@ public class PolynomialFunction implements DifferentiableFunction {
 
     private final List<Double> coefficients;
 
+    public PolynomialFunction(int degree, double coefficient) {
+        this.degree = degree;
+        List<Double> coefficients = new ArrayList<>(Collections.nCopies(degree + 1, 0.0));
+        coefficients.set(degree, coefficient);
+        this.coefficients = coefficients;
+    }
+
     public PolynomialFunction(List<Double> coefficients) {
         this.coefficients = setCoefficients(coefficients);
         this.degree = this.coefficients.size() - 1;
@@ -19,12 +26,6 @@ public class PolynomialFunction implements DifferentiableFunction {
 
     public static PolynomialFunction zero(int degree) {
         return computeZero(degree);
-    }
-
-    public static PolynomialFunction monomial(int degree, double coefficient) {
-        List<Double> coefficients = new ArrayList<>(Collections.nCopies(degree + 1, 0.0));
-        coefficients.set(degree, coefficient);
-        return new PolynomialFunction(coefficients);
     }
 
     @Override
