@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
-import static br.com.math.notes.MathUtils.factorial;
+import static br.com.math.MathUtils.factorial;
 
 public interface DifferentiableFunction extends Function<Double, Double> {
 
