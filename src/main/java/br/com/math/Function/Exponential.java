@@ -1,16 +1,16 @@
 package br.com.math.function;
 
-public class ExponentialFunction implements DifferentiableFunction {
+public class Exponential implements Differentiable {
 
     private final double base;
     private final double coefficient;
 
-    public ExponentialFunction() {
+    public Exponential() {
         base = Math.E;
         coefficient = 1.0;
     }
 
-    public ExponentialFunction(double base, double coefficient) {
+    public Exponential(double base, double coefficient) {
         this.base = base;
         this.coefficient = coefficient;
     }
@@ -24,7 +24,7 @@ public class ExponentialFunction implements DifferentiableFunction {
         return Math.pow(base, x) * coefficient;
     }
 
-    public ExponentialFunction derivative() {
-        return new ExponentialFunction(base, Math.log(base) * coefficient);
+    public Exponential derivative() {
+        return new Exponential(base, Math.log(base) * coefficient);
     }
 }

@@ -1,29 +1,29 @@
 package br.com.physics.kinematics;
 
-import br.com.math.function.DifferentiableFunction;
+import br.com.math.function.Differentiable;
 
 
 public class Motion1D {
 
-    private final DifferentiableFunction positionFunction;
-    private final DifferentiableFunction speedFunction;
-    private final DifferentiableFunction accelerationFunction;
+    private final Differentiable positionFunction;
+    private final Differentiable speedFunction;
+    private final Differentiable accelerationFunction;
 
-    public Motion1D(DifferentiableFunction equationOfMotion) {
+    public Motion1D(Differentiable equationOfMotion) {
         positionFunction = equationOfMotion;
         speedFunction = equationOfMotion.derivative();
         accelerationFunction = equationOfMotion.derivative(2);
     }
 
-    public DifferentiableFunction position() {
+    public Differentiable position() {
         return positionFunction;
     }
 
-    public DifferentiableFunction speed() {
+    public Differentiable speed() {
         return speedFunction;
     }
 
-    public DifferentiableFunction acceleration() {
+    public Differentiable acceleration() {
         return accelerationFunction;
     }
 

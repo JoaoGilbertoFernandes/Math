@@ -4,10 +4,10 @@ public class RowColumnTest {
 
     public static void main(String[] args) {
 
-        Matrix A = Matrix.intRandom(2,2, 0,10);
-        ColumnMatrix B = ColumnMatrix.copyOf(A);
-        System.out.println(A + "\n");
-        System.out.println(B + "\n");
+//        Matrix A = Matrix.intRandom(2,2, 0,10);
+//        ColumnMatrix B = ColumnMatrix.copyOf(A);
+//        System.out.println(A + "\n");
+//        System.out.println(B + "\n");
 //        ColumnMatrix result = B.add(A);
 //        System.out.println(result + "\n");
 

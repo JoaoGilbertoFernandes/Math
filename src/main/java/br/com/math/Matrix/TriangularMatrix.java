@@ -50,8 +50,8 @@ public abstract class TriangularMatrix extends SquareMatrix {
     public TriangularMatrix inverse() {
         return switch (type) {
             case DIAGONAL -> new DiagonalMatrix(diagonalInverseData());
-            case LOWER -> new UpperMatrix(super.inverse());
-            case UPPER -> new LowerMatrix(super.inverse());
+            case LOWER -> new LowerMatrix(super.inverse());
+            case UPPER -> new UpperMatrix(super.inverse());
         };
     }
 
@@ -59,8 +59,8 @@ public abstract class TriangularMatrix extends SquareMatrix {
     public TriangularMatrix transpose() {
         return switch (type) {
             case DIAGONAL -> new DiagonalMatrix(super.transpose());
-            case LOWER -> new LowerMatrix(super.transpose());
-            case UPPER -> new UpperMatrix(super.transpose());
+            case LOWER -> new UpperMatrix(super.transpose());
+            case UPPER -> new LowerMatrix(super.transpose());
         };
     }
 
@@ -70,6 +70,8 @@ public abstract class TriangularMatrix extends SquareMatrix {
     }
 
 
+
+    /** PRIVATE METHODS */
 
     private static double[][] triangularData(double[][] data, TriangularType type) {
         int size = data.length;

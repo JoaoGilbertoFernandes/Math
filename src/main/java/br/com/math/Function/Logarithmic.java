@@ -1,16 +1,16 @@
 package br.com.math.function;
 
-public class LogarithmicFunction implements DifferentiableFunction {
+public class Logarithmic implements Differentiable {
 
     private final double base;
     private final double coefficient;
 
-    public LogarithmicFunction() {
+    public Logarithmic() {
         base = Math.E;
         coefficient = 1.0;
     }
 
-    public LogarithmicFunction(double base, double coefficient) {
+    public Logarithmic(double base, double coefficient) {
         validateBase(base);
         this.base = base;
         this.coefficient = coefficient;
@@ -25,8 +25,8 @@ public class LogarithmicFunction implements DifferentiableFunction {
         return coefficient * Math.log(x) / Math.log(base);
     }
 
-    public ReciprocalFunction derivative() {
-        return new ReciprocalFunction(1, 1 / Math.log(base));
+    public Reciprocal derivative() {
+        return new Reciprocal(1, 1 / Math.log(base));
     }
 
 

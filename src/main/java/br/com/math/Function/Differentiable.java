@@ -6,27 +6,27 @@ import java.util.stream.IntStream;
 
 import static br.com.math.MathUtils.factorial;
 
-public interface DifferentiableFunction extends Function<Double, Double> {
+public interface Differentiable extends Function<Double, Double> {
 
     boolean isZeroFunction();
 
-    DifferentiableFunction derivative();
+    Differentiable derivative();
 
-    default DifferentiableFunction derivative(int order) {
+    default Differentiable derivative(int order) {
         if (order == 0) return this;
-        DifferentiableFunction result = this;
-        for (int i = 0; i <= order; i++) {
+        Differentiable result = this;
+        for (int i = 0; i < order; i++) {
             result = result.derivative();
         }
         return result;
     }
 
-    default PolynomialFunction taylorSerie(int order, double point) {
-        if (this instanceof PolynomialFunction) return (PolynomialFunction) this;
+    default Polynomial taylorSerie(int order, double point) {
+        if (this instanceof Polynomial) return (Polynomial) this;
         List<Double> terms = IntStream.range(0, order)
                 .mapToObj(i -> derivative(i).apply(point) / factorial(i))
                 .toList();
 
-        return new PolynomialFunction(terms);
+        return new Polynomial(terms);
     }
 }

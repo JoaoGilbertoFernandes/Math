@@ -64,11 +64,15 @@ public class TestMatriz {
 //        Matrix isZero = matrix1.multiplyBy(nula);
 //        System.out.println(isZero);
 
-        Matrix A = new Matrix(new double[][]{{2.0, 1.0, 1.0}, {0.0, 1.0, 2.0}, {1.0, 1.0, 3.0}});
+        TriangularMatrix A = new UpperMatrix(new double[][]{{2.0, 1.0, 1.0}, {0.0, 2.0, 1.0}, {0.0, 0.0, 3.0}});
         System.out.println("\n" + A);
-
-        Matrix B = new Matrix(new double[][]{{1}, {17}});
-
-        System.out.println("\n" + A.det());
+        TriangularMatrix B = A.inverse();
+        System.out.println("\n" + B);
+        Matrix C = B.multiply(A);
+        System.out.println("\n" + C);
+        System.out.println("\n" + C.isColumn() + ", " + C.isRow() + ", "
+                + C.isSquare() + ", " + C.isDiagonal() + ", "
+                + C.isLower() + ", " + C.isUpper() + ", "
+                + C.isTriangular() + ", " + C.isSymmetric());
     }
 }

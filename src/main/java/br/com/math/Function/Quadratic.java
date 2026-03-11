@@ -2,13 +2,13 @@ package br.com.math.function;
 
 import java.util.List;
 
-public class QuadraticFunction extends PolynomialFunction {
+public class Quadratic extends Polynomial {
 
     private final Double constant;
     private final Double linear;
     private final Double quadratic;
 
-    public QuadraticFunction(Double constant, Double linear, Double quadratic) {
+    public Quadratic(Double constant, Double linear, Double quadratic) {
         validateCoefficient(quadratic);
         super(List.of(constant, linear, quadratic));
         this.constant = constant;

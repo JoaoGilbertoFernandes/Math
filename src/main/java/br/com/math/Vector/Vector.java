@@ -26,8 +26,7 @@ public class Vector {
     }
 
     public Vector(VectorMatrix coordinates) {
-        size = coordinates.getSize();
-        this.coordinates = new ColumnMatrix(coordinates.getCol(0));
+        this(coordinates.getCol(0));
     }
 
 
@@ -95,10 +94,6 @@ public class Vector {
         return Math.acos(cosSimilarity(other));
     }
 
-    public double angleDeg(Vector other) {
-        validateSize(other);
-        return Math.toDegrees(angle(other));
-    }
 
     public double distance(Vector other) {
         validateSize(other);

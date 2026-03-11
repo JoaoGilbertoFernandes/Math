@@ -1,9 +1,5 @@
 package br.com.math.function;
 
-import java.util.List;
-
-import static br.com.math.function.TrigonometricType.*;
-
 public class FunctionTest {
 
     public static void main(String[] args) {
@@ -33,12 +29,12 @@ public class FunctionTest {
         PolynomialFunction derivative = function.derivative(2);
          */
 
-        DifferentiableFunction function = new ExponentialFunction(Math.E, 1.0);
-
-        PolynomialFunction serie = function.taylorSerie(10, 0.0);
+        Differentiable function = new Sine();
+        Differentiable derivative = function.derivative(4);
+        Polynomial serie = function.taylorSerie(10, 0.0);
         IO.println(serie);
-        IO.println(serie.apply(1.0));
-        IO.println(function.apply(1.0));
+        IO.println(serie.apply(Math.PI /2));
+        IO.println(derivative.apply(Math.PI /2));
 
     }
 }

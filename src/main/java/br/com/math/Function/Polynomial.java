@@ -6,25 +6,25 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
-public class PolynomialFunction implements DifferentiableFunction {
+public class Polynomial implements Differentiable {
 
     private final int degree;
 
     private final List<Double> coefficients;
 
-    public PolynomialFunction(int degree, double coefficient) {
+    public Polynomial(int degree, double coefficient) {
         this.degree = degree;
         List<Double> coefficients = new ArrayList<>(Collections.nCopies(degree + 1, 0.0));
         coefficients.set(degree, coefficient);
         this.coefficients = coefficients;
     }
 
-    public PolynomialFunction(List<Double> coefficients) {
+    public Polynomial(List<Double> coefficients) {
         this.coefficients = setCoefficients(coefficients);
         degree = this.coefficients.size() - 1;
     }
 
-    public static PolynomialFunction zero(int degree) {
+    public static Polynomial zero(int degree) {
         return computeZero(degree);
     }
 
@@ -33,15 +33,15 @@ public class PolynomialFunction implements DifferentiableFunction {
         return computeApply(x);
     }
 
-    public PolynomialFunction derivative() {
+    public Polynomial derivative() {
         return computeDerivative();
     }
 
-    public PolynomialFunction integral() {
+    public Polynomial integral() {
         return computeIntegral();
     }
 
-    public PolynomialFunction integral(int order) {
+    public Polynomial integral(int order) {
         return computeIntegral(order);
     }
 
@@ -74,7 +74,7 @@ public class PolynomialFunction implements DifferentiableFunction {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PolynomialFunction pf)) return false;
+        if (!(o instanceof Polynomial pf)) return false;
         for (int i = 0; i <= degree; i++) {
             if (Math.abs(get(i) - pf.get(i)) > 1e-12) {
                 return false;
@@ -102,13 +102,13 @@ public class PolynomialFunction implements DifferentiableFunction {
 
     /** PRIVATE METHODS */
 
-    public static PolynomialFunction computeZero(int degree) {
+    public static Polynomial computeZero(int degree) {
         List<Double> coefficients = IntStream
                 .range(0, degree)
                 .mapToObj(i -> 0.0)
                 .toList();
 
-        return new PolynomialFunction(coefficients);
+        return new Polynomial(coefficients);
     }
 
     private double computeApply(Double value) {
@@ -120,17 +120,17 @@ public class PolynomialFunction implements DifferentiableFunction {
         return result;
     }
 
-    private PolynomialFunction computeDerivative() {;
-        if (degree == 0) return new PolynomialFunction(List.of(0.0));
+    private Polynomial computeDerivative() {;
+        if (degree == 0) return new Polynomial(List.of(0.0));
         List<Double> derivativeCoefficients = IntStream
                 .range(1, coefficients.size())
                 .mapToObj(i -> coefficients.get(i) * i)
                 .toList();
 
-        return new PolynomialFunction(derivativeCoefficients);
+        return new Polynomial(derivativeCoefficients);
     }
 
-    private PolynomialFunction computeIntegral() {
+    private Polynomial computeIntegral() {
         double c = ThreadLocalRandom.current().nextDouble(0.0, 10.0);
         List<Double> integralCoefficients = new ArrayList<>(List.of(c));
         List<Double> others = IntStream
@@ -139,11 +139,11 @@ public class PolynomialFunction implements DifferentiableFunction {
                 .toList();
 
         integralCoefficients.addAll(others);
-        return new PolynomialFunction(integralCoefficients);
+        return new Polynomial(integralCoefficients);
     }
 
-    private PolynomialFunction computeIntegral(int order) {
-        PolynomialFunction integral = this;
+    private Polynomial computeIntegral(int order) {
+        Polynomial integral = this;
         for (int i = 0; i < order; i++) {
             integral = integral.computeIntegral();
         }

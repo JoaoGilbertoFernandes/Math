@@ -1,6 +1,6 @@
 package br.com.physics.kinematics;
 
-import br.com.math.function.DifferentiableFunction;
+import br.com.math.function.Differentiable;
 import br.com.math.vector.Vector;
 
 import java.util.List;
@@ -14,19 +14,19 @@ public class Motion {
         this.motions = List.copyOf(motions);
     }
 
-    public List<DifferentiableFunction> position() {
+    public List<Differentiable> position() {
         return motions.stream()
                 .map(Motion1D::position)
                 .toList();
     }
 
-    public List<DifferentiableFunction> velocity() {
+    public List<Differentiable> velocity() {
         return motions.stream()
                 .map(Motion1D::speed)
                 .toList();
     }
 
-    public List<DifferentiableFunction> acceleration() {
+    public List<Differentiable> acceleration() {
         return motions.stream()
                 .map(Motion1D::acceleration)
                 .toList();
@@ -112,7 +112,7 @@ public class Motion {
     }
 
     public boolean isUniform() {
-        return acceleration().stream().allMatch(DifferentiableFunction::isZeroFunction);
+        return acceleration().stream().allMatch(Differentiable::isZeroFunction);
     }
 
     public boolean isUniformlyAccelerated() {

@@ -5,20 +5,20 @@ import br.com.math.vector.Vector;
 import java.util.List;
 import java.util.Objects;
 
-public class AffineFunction extends PolynomialFunction {
+public class Affine extends Polynomial {
 
     private final double intercept;
     private final double slope;
     private final Behavior behavior;
 
-    public AffineFunction(double intercept, double slope) {
+    public Affine(double intercept, double slope) {
         super(List.of(intercept, slope));
         this.intercept = intercept;
         this.slope = slope;
         behavior = slope == 0.0 ? Behavior.CONSTANT : slope < 0.0 ? Behavior.INCREASING : Behavior.DECREASING;
     }
 
-    public AffineFunction(Vector v, Vector u) {
+    public Affine(Vector v, Vector u) {
         double slope = slopeComputation(v, u);
         double intercept = v.get(1) - slope * v.get(0);
         this(intercept, slope);
@@ -48,7 +48,7 @@ public class AffineFunction extends PolynomialFunction {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AffineFunction other)) return false;
+        if (!(o instanceof Affine other)) return false;
         return Double.compare(other.slope, slope) == 0 &&
                 Double.compare(other.intercept, intercept) == 0;
     }

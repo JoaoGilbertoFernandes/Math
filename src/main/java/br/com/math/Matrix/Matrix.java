@@ -492,6 +492,8 @@ public class Matrix {
             else sb.append("[ ");
             for (int j = 0; j < cols; j++) {
                 double val = data[i][j] == 0.0 ? 0.0 : data[i][j];
+                if (Math.abs(val) < 1e-9) val = 0.0;
+                else if (Math.abs(val - 1.0) < 1e-9) val = 1.0;
                 sb.append(String.format("%6.2f", val));
                 if (j < cols - 1) sb.append("  ");
             }
@@ -509,8 +511,8 @@ public class Matrix {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 BigDecimal a = BigDecimal.valueOf(data[i][j]);
-                BigDecimal b = BigDecimal.valueOf(m.data[j][i]);
-                if (a.compareTo(b) != 0.0) return false;
+                BigDecimal b = BigDecimal.valueOf(m.data[i][j]);
+                if (a.compareTo(b) != 0) return false;
             }
         }
         return true;

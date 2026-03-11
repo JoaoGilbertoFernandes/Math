@@ -1,16 +1,16 @@
 package br.com.math.function;
 
-public class ReciprocalFunction implements DifferentiableFunction {
+public class Reciprocal implements Differentiable {
 
     private final int degree;
     private final double coefficient;
 
-    public ReciprocalFunction() {
+    public Reciprocal() {
         degree = -1;
         coefficient = 1.0;
     }
 
-    public ReciprocalFunction(int degree, double coefficients) {
+    public Reciprocal(int degree, double coefficients) {
         this.degree = validateDegree(degree);
         this.coefficient = coefficients;
     }
@@ -25,8 +25,8 @@ public class ReciprocalFunction implements DifferentiableFunction {
         return coefficient * Math.pow(x, degree);
     }
 
-    public ReciprocalFunction derivative() {
-        return new ReciprocalFunction(degree - 1, coefficient * degree);
+    public Reciprocal derivative() {
+        return new Reciprocal(degree - 1, coefficient * degree);
     }
 
 
