@@ -1,4 +1,4 @@
-package br.com.math;
+package br.com.math.notes;
 
 public class MathUtils {
 

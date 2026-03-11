@@ -1,5 +1,6 @@
 package br.com.math.matrix;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -507,9 +508,9 @@ public class Matrix {
         if (rows != m.rows || cols != m.cols) return false;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (Math.abs(data[i][j] - m.data[i][j]) > 1e-10) {
-                    return false;
-                }
+                BigDecimal a = BigDecimal.valueOf(data[i][j]);
+                BigDecimal b = BigDecimal.valueOf(m.data[j][i]);
+                if (a.compareTo(b) != 0.0) return false;
             }
         }
         return true;

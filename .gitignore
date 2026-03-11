@@ -39,4 +39,9 @@ build/
 .DS_Store
 
 ## Project ##
-Notes.java
+MatrixNotes.java
+DiagonalNotes.java
+LowerNotes.java
+UpperNotes.java
+RowNotes.java
+ColumnNotes.java

@@ -21,6 +21,32 @@ public abstract class TriangularMatrix extends SquareMatrix {
     }
 
     @Override
+    public boolean isDiagonal() {
+        return type == DIAGONAL;
+    }
+
+    @Override
+    public boolean isLower() {
+        return type == LOWER;
+    }
+
+    @Override
+    public boolean isSymmetric() {
+        if (type == DIAGONAL) return true;
+        return super.isSymmetric();
+    }
+
+    @Override
+    public boolean isTriangular() {
+        return true;
+    }
+
+    @Override
+    public boolean isUpper() {
+        return type == UPPER;
+    }
+
+    @Override
     public TriangularMatrix inverse() {
         return switch (type) {
             case DIAGONAL -> new DiagonalMatrix(diagonalInverseData());

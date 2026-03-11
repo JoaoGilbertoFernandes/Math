@@ -2,7 +2,9 @@ package br.com.math.vector;
 
 import br.com.math.matrix.ColumnMatrix;
 import br.com.math.matrix.Matrix;
+import br.com.math.matrix.VectorMatrix;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,9 +25,9 @@ public class Vector {
         coordinates = new ColumnMatrix(data);
     }
 
-    public Vector(ColumnMatrix coordinates) {
+    public Vector(VectorMatrix coordinates) {
         size = coordinates.getSize();
-        this.coordinates = coordinates;
+        this.coordinates = new ColumnMatrix(coordinates.getCol(0));
     }
 
 
@@ -53,7 +55,7 @@ public class Vector {
 
     public double dotProduct(Vector other) {
         validateSize(other);
-        return coordinates.multiplyByRow(other.coordinates.transpose());
+        return coordinates.multiplyByVector(other.coordinates.transpose());
     }
 
     public Matrix outerProduct(Vector other) {
@@ -83,7 +85,7 @@ public class Vector {
 
     public double cosSimilarity(Vector other) {
         validateSize(other);
-        if (norm() == 0 || other.norm() == 0) return 0;
+        if (norm() == 0 || other.norm() == 0) return 0.0;
         double value = dotProduct(other) * 1 / (norm() * other.norm());
         return Math.max(-1.0, Math.min(1.0, value));
     }
@@ -98,11 +100,7 @@ public class Vector {
         return Math.toDegrees(angle(other));
     }
 
-    public double distance() {
-        return subtract(zero(size)).norm();
-    }
-
-    public double distanceTo(Vector other) {
+    public double distance(Vector other) {
         validateSize(other);
         return subtract(other).norm();
     }
@@ -140,8 +138,8 @@ public class Vector {
         return new Vector(data);
     }
 
-    public ColumnMatrix getCoordinates() {
-        return ColumnMatrix.copyOf(coordinates);
+    public VectorMatrix getCoordinates() {
+        return VectorMatrix.copyOf(coordinates, coordinates.getType());
     }
 
     public double get(int index) {
@@ -172,10 +170,14 @@ public class Vector {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Vector vector = (Vector) o;
-        if (size != vector.size) return false;
-        return coordinates.equals(vector.coordinates);
+        if (!(o instanceof Vector v)) return false;
+        if (size != v.size) return false;
+        for (int i = 0; i < size; i++) {
+            BigDecimal a = BigDecimal.valueOf(get(i));
+            BigDecimal b = BigDecimal.valueOf(v.get(i));
+            if (a.compareTo(b) != 0.0) return false;
+        }
+        return true;
     }
 
     @Override

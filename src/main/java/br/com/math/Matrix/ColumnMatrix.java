@@ -1,54 +1,17 @@
 package br.com.math.matrix;
 
-import java.util.Arrays;
+import java.util.Objects;
 
-public class ColumnMatrix extends Matrix {
+import static br.com.math.matrix.VectorType.COLUMN;
 
-    private final int size;
-    private static final int COLS = 1;
-    private static final int COL = 0;
+public class ColumnMatrix extends VectorMatrix {
 
     public ColumnMatrix(int size) {
-        super(size, COLS);
-        this.size = size;
+        super(new double[size], COLUMN);
     }
 
     public ColumnMatrix(double[] data) {
-        super(colData(data));
-        size = data.length;
-    }
-
-
-    public static ColumnMatrix copyOf(Matrix matrix) {
-        return copyOf(matrix, COL);
-    }
-
-    public static ColumnMatrix copyOf(Matrix matrix, int col) {
-        double[] data = Arrays.copyOf(matrix.getCol(col), matrix.rows);
-        return new ColumnMatrix(data);
-    }
-
-    public static ColumnMatrix zero(int size) {
-        return new ColumnMatrix(size);
-    }
-
-    public double get(int index) {
-        return getRow(index)[0];
-    }
-
-    public int getSize() {
-        return size;
-    }
-    public void set(int index, double value) {}
-
-    public double multiplyByRow(Matrix other) {
-        validateAsRow(other);
-        return other.multiply(this).get(COL, COL);
-    }
-
-    @Override
-    public ColumnMatrix add(Matrix other) {
-        return ColumnMatrix.copyOf(super.add(other));
+        super(Objects.requireNonNull(data), COLUMN);
     }
 
     @Override
@@ -56,27 +19,7 @@ public class ColumnMatrix extends Matrix {
         return true;
     }
 
-    @Override
-    public ColumnMatrix multiply(double value) {
-        return copyOf(super.multiply(value));
-    }
-
-    @Override
-    public RowMatrix transpose() {
-        return RowMatrix.copyOf(super.transpose());
-    }
-
-
-    private static double[][] colData(double[] data) {
-        int size = data.length;
-        double[][] colData = new double[size][COLS];
-        for (int j = 0; j < data.length; j++) {
-            colData[j][COL] = data[j];
-        }
-        return colData;
-    }
-
-    private void validateAsRow(Matrix matrix) {
-        if (!matrix.isRow()) throw new IllegalArgumentException("Matrix is not row");
+    public double[] getCol() {
+        return super.getCol(0);
     }
 }

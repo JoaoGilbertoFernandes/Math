@@ -21,7 +21,7 @@ public class PolynomialFunction implements DifferentiableFunction {
 
     public PolynomialFunction(List<Double> coefficients) {
         this.coefficients = setCoefficients(coefficients);
-        this.degree = this.coefficients.size() - 1;
+        degree = this.coefficients.size() - 1;
     }
 
     public static PolynomialFunction zero(int degree) {
@@ -187,16 +187,16 @@ public class PolynomialFunction implements DifferentiableFunction {
         StringBuilder sb = new StringBuilder();
         for (char c : digits.toCharArray()) {
             switch (c) {
-                case '0': sb.append("\u2070"); break;
-                case '1': sb.append("\u00B9"); break;
-                case '2': sb.append("\u00B2"); break;
-                case '3': sb.append("\u00B3"); break;
-                case '4': sb.append("\u2074"); break;
-                case '5': sb.append("\u2075"); break;
-                case '6': sb.append("\u2076"); break;
-                case '7': sb.append("\u2077"); break;
-                case '8': sb.append("\u2078"); break;
-                case '9': sb.append("\u2079"); break;
+                case '0': sb.append("⁰"); break;
+                case '1': sb.append("¹"); break;
+                case '2': sb.append("²"); break;
+                case '3': sb.append("³"); break;
+                case '4': sb.append("⁴"); break;
+                case '5': sb.append("⁵"); break;
+                case '6': sb.append("⁶"); break;
+                case '7': sb.append("⁷"); break;
+                case '8': sb.append("⁸"); break;
+                case '9': sb.append("⁹"); break;
             }
         }
         return sb.toString();

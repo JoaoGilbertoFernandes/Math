@@ -1,53 +1,17 @@
 package br.com.math.matrix;
 
-import java.util.Arrays;
+import java.util.Objects;
 
-public class RowMatrix extends Matrix {
+import static br.com.math.matrix.VectorType.ROW;
 
-    private final int size;
-    private static final int ROWS = 1;
-    private static final int ROW = 0;
+public class RowMatrix extends VectorMatrix {
 
     public RowMatrix(int size) {
-        super(ROWS, size);
-        this.size = size;
+        super(new double[size], ROW);
     }
 
     public RowMatrix(double[] data) {
-        super(ROWS, data.length);
-        size = data.length;
-        this.data[ROW] = Arrays.copyOf(data, size);
-    }
-
-
-    public static RowMatrix copyOf(Matrix matrix) {
-        return new RowMatrix(matrix.getRow(ROW));
-    }
-
-    public static RowMatrix copyOf(Matrix matrix, int row) {
-        return new RowMatrix(matrix.getRow(row));
-    }
-
-    public static RowMatrix zero(int size) {
-        return new RowMatrix(size);
-    }
-
-    public double get(int col) {
-        return getCol(col)[0];
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public double multiplyByCol(Matrix other) {
-        validateAsColumn(other);
-        return multiply(other).get(ROW, ROW);
-    }
-
-    @Override
-    public RowMatrix add(Matrix other) {
-        return copyOf(super.add(other));
+        super(Objects.requireNonNull(data), ROW);
     }
 
     @Override
@@ -55,18 +19,7 @@ public class RowMatrix extends Matrix {
         return true;
     }
 
-    @Override
-    public RowMatrix multiply(double value) {
-        return copyOf(super.multiply(value));
-    }
-
-    @Override
-    public ColumnMatrix transpose() {
-        return ColumnMatrix.copyOf(super.transpose());
-    }
-
-
-    private void validateAsColumn(Matrix matrix) {
-        if (!matrix.isColumn()) throw new IllegalArgumentException("Matrix is not column");
+    public double[] getRow() {
+        return super.getRow(0);
     }
 }
