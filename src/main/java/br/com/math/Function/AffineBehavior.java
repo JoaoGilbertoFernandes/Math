@@ -1,6 +1,6 @@
 package br.com.math.function;
 
-public enum Behavior {
+public enum AffineBehavior {
     INCREASING,
     DECREASING,
     CONSTANT;
