@@ -5,10 +5,10 @@ import static br.com.math.function.TrigonometricType.SINE;
 public class Sine extends Trigonometric {
 
     public Sine() {
-        super(SINE, 1.0);
+        super(SINE, 1.0, 1.0, 0.0);
     }
 
-    public Sine(double coefficient) {
-        super(SINE, coefficient);
+    public Sine(double amplitude, double frequency, double phase) {
+        super(SINE, amplitude, frequency, phase);
     }
 }
