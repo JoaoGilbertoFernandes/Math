@@ -5,13 +5,13 @@ import br.com.math.vector.Vector;
 import java.util.List;
 import java.util.Objects;
 
-import static br.com.math.function.AffineBehavior.*;
+import static br.com.math.function.AffineType.*;
 
 public class Affine extends Polynomial {
 
     private final double intercept;
     private final double slope;
-    private final AffineBehavior behavior;
+    private final AffineType behavior;
 
     public Affine(double intercept, double slope) {
         super(List.of(intercept, slope));
@@ -34,7 +34,7 @@ public class Affine extends Polynomial {
         return slope;
     }
 
-    public AffineBehavior getBehavior() {
+    public AffineType getBehavior() {
         return behavior;
     }
 
