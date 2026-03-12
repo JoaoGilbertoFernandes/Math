@@ -1,6 +1,8 @@
-package br.com.math.matrix;
+package br.com.math.matrix.squareMatrix.triangularMatrix;
 
-import static br.com.math.matrix.TriangularType.LOWER;
+import br.com.math.matrix.Matrix;
+
+import static br.com.math.matrix.squareMatrix.triangularMatrix.TriangularType.LOWER;
 
 public class LowerMatrix extends TriangularMatrix {
 

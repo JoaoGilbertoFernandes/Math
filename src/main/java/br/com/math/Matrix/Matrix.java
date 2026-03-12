@@ -1,5 +1,12 @@
 package br.com.math.matrix;
 
+import br.com.math.matrix.squareMatrix.SquareMatrix;
+import br.com.math.matrix.squareMatrix.triangularMatrix.DiagonalMatrix;
+import br.com.math.matrix.squareMatrix.triangularMatrix.LowerMatrix;
+import br.com.math.matrix.squareMatrix.triangularMatrix.UpperMatrix;
+import br.com.math.matrix.vectorMatrix.ColumnMatrix;
+import br.com.math.matrix.vectorMatrix.RowMatrix;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,11 +15,11 @@ import java.util.stream.IntStream;
 
 public class Matrix {
 
-    protected final int rows;
+    private final int rows;
 
-    protected final int cols;
+    private final int cols;
 
-    protected final double[][] data;
+    private final double[][] data;
 
     public Matrix(int rows, int cols) {
         validateDimensions(rows, cols);

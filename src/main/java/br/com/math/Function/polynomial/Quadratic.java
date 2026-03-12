@@ -1,4 +1,4 @@
-package br.com.math.function;
+package br.com.math.function.polynomial;
 
 import java.util.List;
 

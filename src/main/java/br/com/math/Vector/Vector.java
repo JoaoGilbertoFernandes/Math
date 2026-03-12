@@ -1,8 +1,8 @@
 package br.com.math.vector;
 
-import br.com.math.matrix.ColumnMatrix;
+import br.com.math.matrix.vectorMatrix.ColumnMatrix;
 import br.com.math.matrix.Matrix;
-import br.com.math.matrix.VectorMatrix;
+import br.com.math.matrix.vectorMatrix.VectorMatrix;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

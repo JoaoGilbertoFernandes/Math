@@ -1,4 +1,7 @@
-package br.com.math.matrix;
+package br.com.math.matrix.squareMatrix;
+
+import br.com.math.matrix.Matrix;
+import br.com.math.matrix.squareMatrix.triangularMatrix.DiagonalMatrix;
 
 public class SquareMatrix extends Matrix {
 

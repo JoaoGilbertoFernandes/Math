@@ -1,4 +1,6 @@
-package br.com.math.function;
+package br.com.math.function.trigonometric;
+
+import br.com.math.function.Differentiable;
 
 public abstract class Trigonometric implements Differentiable {
 

@@ -35,6 +35,18 @@ public class Exponential implements Differentiable {
         return new Exponential(base, (amplitude / (growthRate * Math.log(base))), growthRate);
     }
 
+    public double getBase() {
+        return base;
+    }
+
+    public double getAmplitude() {
+        return amplitude;
+    }
+
+    public double getGrowthRate() {
+        return growthRate;
+    }
+
     @Override
     public String toString() {
         return String.format("%.2f·%s^(%.2f·x)", amplitude, base, growthRate);

@@ -1,6 +1,6 @@
-package br.com.math.function;
+package br.com.math.function.trigonometric;
 
-import static br.com.math.function.TrigonometricType.COSINE;
+import static br.com.math.function.trigonometric.TrigonometricType.COSINE;
 
 public class Cosine extends Trigonometric {
 

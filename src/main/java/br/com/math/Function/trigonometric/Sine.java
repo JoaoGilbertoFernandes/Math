@@ -1,6 +1,6 @@
-package br.com.math.function;
+package br.com.math.function.trigonometric;
 
-import static br.com.math.function.TrigonometricType.SINE;
+import static br.com.math.function.trigonometric.TrigonometricType.SINE;
 
 public class Sine extends Trigonometric {
 

@@ -1,6 +1,8 @@
 package br.com.math.vector;
 
 
+import br.com.math.vector.coordinates.PolarCoordinates;
+
 public class Vector2D extends Vector {
 
     private static final int SIZE = 2;

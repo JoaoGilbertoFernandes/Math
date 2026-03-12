@@ -1,6 +1,8 @@
-package br.com.math.matrix;
+package br.com.math.matrix.squareMatrix.triangularMatrix;
 
-import static br.com.math.matrix.TriangularType.DIAGONAL;
+import br.com.math.matrix.Matrix;
+
+import static br.com.math.matrix.squareMatrix.triangularMatrix.TriangularType.DIAGONAL;
 
 public class DiagonalMatrix extends TriangularMatrix {
 

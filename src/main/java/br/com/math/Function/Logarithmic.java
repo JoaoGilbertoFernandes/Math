@@ -32,6 +32,18 @@ public class Logarithmic implements Differentiable {
         return new Reciprocal(1, (amplitude * growthRate * 1 / Math.log(base)));
     }
 
+    public double getBase() {
+        return base;
+    }
+
+    public double getAmplitude() {
+        return amplitude;
+    }
+
+    public double getGrowthRate() {
+        return growthRate;
+    }
+
     @Override
     public String toString() {
         return String.format("%.2f·log_%.2f(%.2f·x)", amplitude, base, growthRate);
@@ -50,6 +62,8 @@ public class Logarithmic implements Differentiable {
     public int hashCode() {
         return java.util.Objects.hash(base, amplitude, growthRate);
     }
+
+
 
 
     private static void validateBase(double value) {

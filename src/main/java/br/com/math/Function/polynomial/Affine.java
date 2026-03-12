@@ -1,11 +1,11 @@
-package br.com.math.function;
+package br.com.math.function.polynomial;
 
 import br.com.math.vector.Vector;
 
 import java.util.List;
 import java.util.Objects;
 
-import static br.com.math.function.AffineType.*;
+import static br.com.math.function.polynomial.AffineType.*;
 
 public class Affine extends Polynomial {
 

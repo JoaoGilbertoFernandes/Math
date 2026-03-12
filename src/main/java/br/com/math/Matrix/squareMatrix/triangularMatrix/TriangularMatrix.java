@@ -1,6 +1,9 @@
-package br.com.math.matrix;
+package br.com.math.matrix.squareMatrix.triangularMatrix;
 
-import static br.com.math.matrix.TriangularType.*;
+import br.com.math.matrix.*;
+import br.com.math.matrix.squareMatrix.SquareMatrix;
+
+import static br.com.math.matrix.squareMatrix.triangularMatrix.TriangularType.*;
 
 public abstract class TriangularMatrix extends SquareMatrix {
 
@@ -86,8 +89,8 @@ public abstract class TriangularMatrix extends SquareMatrix {
 
     private double computeDeterminant() {
         double det = 1.0;
-        for (int i = 0; i < rows; i++) {
-            det *= data[i][i];
+        for (int i = 0; i < getRows(); i++) {
+            det *= getData()[i][i];
         }
         return det;
     }
@@ -96,7 +99,7 @@ public abstract class TriangularMatrix extends SquareMatrix {
         if (computeDeterminant() == 0.0) throw new IllegalArgumentException("Matrix is not invertible.");
         double[][] invData = new double[size][size];
         for (int i = 0; i < size; i++) {
-            invData[i][i] = 1 / data[i][i];
+            invData[i][i] = 1 / getData()[i][i];
         }
         return invData;
     }

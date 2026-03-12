@@ -1,5 +1,8 @@
 package br.com.math.matrix;
 
+import br.com.math.matrix.squareMatrix.triangularMatrix.TriangularMatrix;
+import br.com.math.matrix.squareMatrix.triangularMatrix.UpperMatrix;
+
 public class TestMatriz {
 
     public static void main(String[] args) {

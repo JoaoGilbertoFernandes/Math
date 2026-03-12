@@ -1,8 +1,8 @@
-package br.com.math.matrix;
+package br.com.math.matrix.vectorMatrix;
 
 import java.util.Objects;
 
-import static br.com.math.matrix.VectorType.ROW;
+import static br.com.math.matrix.vectorMatrix.VectorType.ROW;
 
 public class RowMatrix extends VectorMatrix {
 

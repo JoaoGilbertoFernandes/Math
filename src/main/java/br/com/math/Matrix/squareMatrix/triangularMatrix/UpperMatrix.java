@@ -1,6 +1,8 @@
-package br.com.math.matrix;
+package br.com.math.matrix.squareMatrix.triangularMatrix;
 
-import static br.com.math.matrix.TriangularType.UPPER;
+import br.com.math.matrix.Matrix;
+
+import static br.com.math.matrix.squareMatrix.triangularMatrix.TriangularType.UPPER;
 
 public class UpperMatrix extends TriangularMatrix {
 

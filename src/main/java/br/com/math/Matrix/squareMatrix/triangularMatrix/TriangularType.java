@@ -1,4 +1,4 @@
-package br.com.math.matrix;
+package br.com.math.matrix.squareMatrix.triangularMatrix;
 
 public enum TriangularType {
     DIAGONAL {

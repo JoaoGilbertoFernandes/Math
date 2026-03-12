@@ -1,5 +1,7 @@
 package br.com.math.function;
 
+import br.com.math.function.polynomial.Polynomial;
+
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
@@ -14,6 +16,12 @@ public interface Differentiable extends Function<Double, Double> {
 
     default Differentiable derivative(int order) {
         if (order == 0) return this;
+        if (getClass() == Polynomial.class) {
+            Polynomial p = (Polynomial) this;
+            if (order > p.getDegree()) {
+                return Polynomial.zero(0);
+            }
+        }
         Differentiable result = this;
         for (int i = 0; i < order; i++) {
             result = result.derivative();

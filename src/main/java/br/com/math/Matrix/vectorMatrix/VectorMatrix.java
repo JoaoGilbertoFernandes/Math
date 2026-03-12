@@ -1,6 +1,8 @@
-package br.com.math.matrix;
+package br.com.math.matrix.vectorMatrix;
 
-import static br.com.math.matrix.VectorType.*;
+import br.com.math.matrix.Matrix;
+
+import static br.com.math.matrix.vectorMatrix.VectorType.*;
 
 public abstract class VectorMatrix extends Matrix {
 

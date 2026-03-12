@@ -1,5 +1,8 @@
 package br.com.math.function;
 
+import br.com.math.function.polynomial.Polynomial;
+import br.com.math.function.trigonometric.Sine;
+
 public class FunctionTest {
 
     public static void main(String[] args) {

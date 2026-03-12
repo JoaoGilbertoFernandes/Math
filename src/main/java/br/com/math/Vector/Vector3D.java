@@ -1,6 +1,8 @@
 package br.com.math.vector;
 
 import br.com.math.matrix.Matrix;
+import br.com.math.vector.coordinates.CylindricalCoordinates;
+import br.com.math.vector.coordinates.SphericalCoordinates;
 
 public class Vector3D extends Vector {
 

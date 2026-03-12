@@ -1,5 +1,7 @@
 package br.com.math.matrix;
 
+import br.com.math.matrix.squareMatrix.SquareMatrix;
+
 public class RowColumnTest {
 
     public static void main(String[] args) {

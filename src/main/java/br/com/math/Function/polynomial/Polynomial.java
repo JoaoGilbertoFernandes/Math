@@ -1,4 +1,6 @@
-package br.com.math.function;
+package br.com.math.function.polynomial;
+
+import br.com.math.function.Differentiable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,9 +15,9 @@ public class Polynomial implements Differentiable {
     private final List<Double> coefficients;
 
     public Polynomial(int degree, double coefficient) {
-        this.degree = degree;
-        List<Double> coefficients = new ArrayList<>(Collections.nCopies(degree + 1, 0.0));
-        coefficients.set(degree, coefficient);
+        this.degree = validateDegree(degree);
+        List<Double> coefficients = new ArrayList<>(Collections.nCopies(this.degree + 1, 0.0));
+        coefficients.set(this.degree, coefficient);
         this.coefficients = coefficients;
     }
 
@@ -104,7 +106,7 @@ public class Polynomial implements Differentiable {
 
     public static Polynomial computeZero(int degree) {
         List<Double> coefficients = IntStream
-                .range(0, degree)
+                .range(0, degree + 1)
                 .mapToObj(i -> 0.0)
                 .toList();
 
@@ -148,6 +150,10 @@ public class Polynomial implements Differentiable {
             integral = integral.computeIntegral();
         }
         return integral;
+    }
+
+    private static int validateDegree(int degree) {
+        return Math.abs(degree);
     }
 
     private static int setDegree(List<Double> coefficients) {

@@ -36,7 +36,6 @@ public class Reciprocal implements Differentiable {
         return new Reciprocal(degree + 1, amplitude / (degree + 1));
     }
 
-
     @Override
     public String toString() {
         return String.format("%.2f·x^%d", amplitude, degree);
@@ -56,11 +55,9 @@ public class Reciprocal implements Differentiable {
 
 
 
-
     private static int validateDegree(int value) {
         if (value == 0) throw new IllegalArgumentException("Degree cannot be zero.");
-        if (value > 0) return -value;
-        return value;
+        return -Math.abs(value);
     }
     private void validateValue(double value) {
         if (value == 0) throw new IllegalArgumentException("Function is not defined at x = 0.");
