@@ -139,9 +139,9 @@ public class Polynomial implements Integrable {
     }
 
 
-
-
-    /** PRIVATE METHODS */
+    /** --------------------------------------------------------------------------------------------------------------
+     * PRIVATE METHODS
+     */
 
     private static int validateDegree(int degree) {
         return Math.abs(degree);

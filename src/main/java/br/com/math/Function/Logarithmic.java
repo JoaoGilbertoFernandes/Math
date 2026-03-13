@@ -3,11 +3,14 @@ package br.com.math.function;
 import br.com.math.function.polynomial.Polynomial;
 import org.jetbrains.annotations.NotNull;
 
-public record Logarithmic(double base, double amplitude, double rate)
-        implements Differentiable {
+public record Logarithmic(double base, double amplitude, double rate) implements Differentiable {
 
     public Logarithmic() {
         this(Math.E, 1.0, 1.0);
+    }
+
+    public Logarithmic(double amplitude, double rate) {
+        this(Math.E, amplitude, rate);
     }
 
     public Logarithmic {

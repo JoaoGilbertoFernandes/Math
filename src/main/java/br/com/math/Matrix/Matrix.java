@@ -534,8 +534,8 @@ public class Matrix {
     }
 
 
-
-    /** PRIVATE METHODS */
+    /** --------------------------------------------------------------------------------------------------------------
+     * PRIVATE METHODS */
 
     private static double[][] matrixData(double[][] data) {
         validateData(data);

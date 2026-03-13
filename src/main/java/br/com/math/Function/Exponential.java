@@ -2,11 +2,14 @@ package br.com.math.function;
 
 import org.jetbrains.annotations.NotNull;
 
-public record Exponential(double base, double amplitude, double rate)
-        implements Integrable {
+public record Exponential(double base, double amplitude, double rate) implements Integrable {
 
     public Exponential() {
         this(Math.E, 1.0, 1.0);
+    }
+
+    public Exponential(double amplitude, double rate) {
+        this(Math.E, amplitude, rate);
     }
 
     @Override
