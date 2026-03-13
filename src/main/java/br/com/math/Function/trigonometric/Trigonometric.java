@@ -1,8 +1,8 @@
 package br.com.math.function.trigonometric;
 
-import br.com.math.function.Differentiable;
+import br.com.math.function.Integrable;
 
-public abstract class Trigonometric implements Differentiable {
+public abstract class Trigonometric implements Integrable {
 
     private final TrigonometricType type;
 
@@ -19,10 +19,12 @@ public abstract class Trigonometric implements Differentiable {
         this.phase = phase;
     }
 
+    @Override
     public boolean isZeroFunction() {
         return amplitude == 0.0;
     }
 
+    @Override
     public Trigonometric derivative() {
         return switch (type) {
             case SINE -> new Cosine((amplitude * frequency), frequency, phase);
@@ -30,6 +32,7 @@ public abstract class Trigonometric implements Differentiable {
         };
     }
 
+    @Override
     public Trigonometric integral() {
         return switch (type) {
             case SINE -> new Cosine((-amplitude / frequency), frequency, phase);
@@ -63,10 +66,25 @@ public abstract class Trigonometric implements Differentiable {
 
     @Override
     public String toString() {
-        return switch (type) {
-            case SINE -> String.format("%.2f·sin(%.2f·x + %.2f)", amplitude, frequency, phase);
-            case COSINE -> String.format("%.2f·cos(%.2f·x + %.2f)", amplitude, frequency, phase);
+        StringBuilder sb = new StringBuilder("f(x) = ");
+        if (amplitude != 1.0) {
+            sb.append(String.format("%.2f·", amplitude));
+        }
+        String func = switch (type) {
+            case SINE -> "sin(";
+            case COSINE -> "cos(";
         };
+        sb.append(func);
+        if (frequency != 1.0) {
+            sb.append(String.format("%.2f·x", frequency));
+        } else {
+            sb.append("x");
+        }
+        if (phase != 0.0) {
+            sb.append(String.format(" + %.2f", phase));
+        }
+        sb.append(")");
+        return sb.toString().trim();
     }
 
     @Override

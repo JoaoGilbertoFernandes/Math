@@ -1,6 +1,6 @@
 package br.com.math.function.polynomial;
 
-import br.com.math.function.Differentiable;
+import br.com.math.function.Integrable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
-public class Polynomial implements Differentiable {
+public class Polynomial implements Integrable {
 
     private final int degree;
 
@@ -16,7 +16,9 @@ public class Polynomial implements Differentiable {
 
     public Polynomial(int degree, double coefficient) {
         this.degree = validateDegree(degree);
-        List<Double> coefficients = new ArrayList<>(Collections.nCopies(this.degree + 1, 0.0));
+        List<Double> coefficients = new ArrayList<>(
+                Collections.nCopies(this.degree + 1, 0.0)
+        );
         coefficients.set(this.degree, coefficient);
         this.coefficients = coefficients;
     }
@@ -27,24 +29,50 @@ public class Polynomial implements Differentiable {
     }
 
     public static Polynomial zero(int degree) {
-        return computeZero(degree);
+        List<Double> coefficients = IntStream
+                .range(0, degree + 1)
+                .mapToObj(i -> 0.0)
+                .toList();
+
+        return new Polynomial(coefficients);
+    }
+
+    public static Polynomial identity() {
+        return new Polynomial(1, 1.0);
     }
 
     @Override
     public Double apply(Double x) {
-        return computeApply(x);
+        if (x == 0) return coefficients.getFirst();
+        double result = 0.0;
+        for (int i = degree; i >= 0; i--) {
+            result = (result * x) + coefficients.get(i);
+        }
+        return result;
     }
 
+    @Override
     public Polynomial derivative() {
-        return computeDerivative();
+        if (degree == 0) return new Polynomial(List.of(0.0));
+        List<Double> derivativeCoefficients = IntStream
+                .range(1, coefficients.size())
+                .mapToObj(i -> coefficients.get(i) * i)
+                .toList();
+
+        return new Polynomial(derivativeCoefficients);
     }
 
+    @Override
     public Polynomial integral() {
-        return computeIntegral();
-    }
+        double c = ThreadLocalRandom.current().nextDouble(0.0, 10.0);
+        List<Double> integralCoefficients = new ArrayList<>(List.of(c));
+        List<Double> others = IntStream
+                .range(0, coefficients.size())
+                .mapToObj(i -> coefficients.get(i) / (i + 1))
+                .toList();
 
-    public Polynomial integral(int order) {
-        return computeIntegral(order);
+        integralCoefficients.addAll(others);
+        return new Polynomial(integralCoefficients);
     }
 
     public double get(int index) {
@@ -66,8 +94,19 @@ public class Polynomial implements Differentiable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("f(x) = ").append(String.format("%.10f ", get(0)));
-        for (int i = 1; i <= degree; i++) {
+        int index = 0;
+        for (int i = 0; i <= degree; i++) {
+            if (get(i) == 0.0) {
+                continue;
+            }
+            index = i;
+            break;
+        }
+        sb.append("f(x) = ");
+        if (index == 0) sb.append(String.format("%.2f ", get(0)));
+        else if (index == 1) sb.append("x ");
+        else sb.append(String.format("%.2f·", get(index))).append("x").append(superscript(index));
+        for (int i = index + 1; i <= degree; i++) {
             sb.append(formatCoefficients(get(i), i));
         }
         return sb.toString().trim();
@@ -104,54 +143,6 @@ public class Polynomial implements Differentiable {
 
     /** PRIVATE METHODS */
 
-    public static Polynomial computeZero(int degree) {
-        List<Double> coefficients = IntStream
-                .range(0, degree + 1)
-                .mapToObj(i -> 0.0)
-                .toList();
-
-        return new Polynomial(coefficients);
-    }
-
-    private double computeApply(Double value) {
-        if (value == 0) return coefficients.getFirst();
-        double result = 0.0;
-        for (int i = degree; i >= 0; i--) {
-            result = (result * value) + coefficients.get(i);
-        }
-        return result;
-    }
-
-    private Polynomial computeDerivative() {;
-        if (degree == 0) return new Polynomial(List.of(0.0));
-        List<Double> derivativeCoefficients = IntStream
-                .range(1, coefficients.size())
-                .mapToObj(i -> coefficients.get(i) * i)
-                .toList();
-
-        return new Polynomial(derivativeCoefficients);
-    }
-
-    private Polynomial computeIntegral() {
-        double c = ThreadLocalRandom.current().nextDouble(0.0, 10.0);
-        List<Double> integralCoefficients = new ArrayList<>(List.of(c));
-        List<Double> others = IntStream
-                .range(0, coefficients.size())
-                .mapToObj(i -> coefficients.get(i) / (i + 1))
-                .toList();
-
-        integralCoefficients.addAll(others);
-        return new Polynomial(integralCoefficients);
-    }
-
-    private Polynomial computeIntegral(int order) {
-        Polynomial integral = this;
-        for (int i = 0; i < order; i++) {
-            integral = integral.computeIntegral();
-        }
-        return integral;
-    }
-
     private static int validateDegree(int degree) {
         return Math.abs(degree);
     }
@@ -176,9 +167,9 @@ public class Polynomial implements Differentiable {
         } else if (coef == -1.0) {
             part.append("- ");
         } else if (coef > 0) {
-            part.append("+ ").append(String.format("%.10f", coef));
+            part.append("+ ").append(String.format("%.2f·", coef));
         } else {
-            part.append("- ").append(String.format("%.10f", Math.abs(coef)));
+            part.append("- ").append(String.format("%.2f·", Math.abs(coef)));
         }
         if (power == 1) {
             part.append("x ");
