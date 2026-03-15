@@ -1,10 +1,7 @@
 package br.com.math.function;
 
+import br.com.math.function.exponential.Logarithmic;
 import br.com.math.function.polynomial.Polynomial;
-import br.com.math.function.trigonometric.Cosine;
-import br.com.math.function.trigonometric.Sine;
-
-import java.util.List;
 
 public class FunctionTest {
 

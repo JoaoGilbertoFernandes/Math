@@ -20,11 +20,11 @@ public class VectorTest {
          * System.out.println(v.canonicalBasis() + "\n");
          */
 
-        /* Vector2D v = new Vector2D(1,2);
+        /* Vector v = new Vector(1,2);
          * System.out.println("\n" + v);
          * System.out.println("\n" + v.toBasis());
-         * Vector2D u = new Vector2D(3,2);
-         * Vector2D w = new Vector2D(-2,3);
+         * Vector u = new Vector(3,2);
+         * Vector w = new Vector(-2,3);
          * List<Vector> basis = new ArrayList <>();
          * basis.add(u);
          * basis.add(w);
@@ -34,11 +34,11 @@ public class VectorTest {
          */
 
         /*
-        * Vector3D x = new Vector3D(1, 0, 0);
-        * Vector3D y = new Vector3D(0, 1, 0);
-        * Vector3D z = new Vector3D(0, 0, 1);
-        * Vector3D v = new Vector3D(1, 4, 2);
-        * Vector3D w = new Vector3D(3, 2, 3);
+        * Vector x = new Vector(1, 0, 0);
+        * Vector y = new Vector(0, 1, 0);
+        * Vector z = new Vector(0, 0, 1);
+        * Vector v = new Vector(1, 4, 2);
+        * Vector w = new Vector(3, 2, 3);
         */
 
         /*
@@ -47,7 +47,7 @@ public class VectorTest {
         * System.out.println("\n" + Math.toDegrees(v.toSpherical().phi()));
         */
 
-        Vector3D v = new Vector3D(3,4,1);
+        Vector v = new Vector(3,4,1);
         System.out.println("\n" + v.toCylindrical());
         System.out.println("\n" + v.toSpherical());
         System.out.println("\n" + v.toBasis());

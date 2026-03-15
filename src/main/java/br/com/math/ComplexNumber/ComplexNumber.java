@@ -1,7 +1,6 @@
 package br.com.math.complexNumber;
 
 import br.com.math.vector.Vector;
-import br.com.math.vector.Vector2D;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +17,8 @@ public class ComplexNumber {
     }
 
     public ComplexNumber(Vector vector) {
-        real = vector.dotProduct(new Vector2D(1,0));
-        imaginary = vector.dotProduct(new Vector2D(0,1));
+        real = vector.dotProduct(new Vector(1,0));
+        imaginary = vector.dotProduct(new Vector(0,1));
     }
 
 

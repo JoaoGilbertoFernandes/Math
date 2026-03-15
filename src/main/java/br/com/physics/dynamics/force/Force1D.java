@@ -22,13 +22,9 @@ public class Force1D {
         this.function = function;
     }
 
-    public Force1D(double mass, Function<Double, Double> acceleration) {
-        this(x -> mass * acceleration.apply(x));
-    }
 
-
-    public double valueAt(double x) {
-        value = function.apply(x);
+    public double valueAt(double param) {
+        value = function.apply(param);
         return value;
     }
 

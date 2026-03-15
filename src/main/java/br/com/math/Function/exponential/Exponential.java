@@ -1,5 +1,6 @@
-package br.com.math.function;
+package br.com.math.function.exponential;
 
+import br.com.math.function.Integrable;
 import org.jetbrains.annotations.NotNull;
 
 public record Exponential(double base, double amplitude, double rate) implements Integrable {

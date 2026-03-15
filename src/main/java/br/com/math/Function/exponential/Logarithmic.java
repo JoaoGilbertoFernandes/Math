@@ -1,5 +1,7 @@
-package br.com.math.function;
+package br.com.math.function.exponential;
 
+import br.com.math.function.Differentiable;
+import br.com.math.function.power.Reciprocal;
 import br.com.math.function.polynomial.Polynomial;
 import org.jetbrains.annotations.NotNull;
 

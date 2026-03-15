@@ -3,12 +3,18 @@ package br.com.math.vector;
 import br.com.math.matrix.vectorMatrix.ColumnMatrix;
 import br.com.math.matrix.Matrix;
 import br.com.math.matrix.vectorMatrix.VectorMatrix;
+import br.com.math.matrix.vectorMatrix.VectorType;
+import br.com.math.vector.coordinates.CylindricalCoordinates;
+import br.com.math.vector.coordinates.PolarCoordinates;
+import br.com.math.vector.coordinates.SphericalCoordinates;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
+import static br.com.math.matrix.vectorMatrix.VectorType.COLUMN;
 
 public class Vector {
 
@@ -26,7 +32,20 @@ public class Vector {
     }
 
     public Vector(VectorMatrix coordinates) {
-        this(coordinates.getCol(0));
+        double[] data;
+        if (coordinates.getType() == COLUMN)
+            data = coordinates.getCol(0);
+        else
+            data = coordinates.getRow(0);
+        this(data);
+    }
+
+    public Vector(double x, double y, double z) {
+        this(new double[]{x, y, z});
+    }
+
+    public Vector(double x, double y) {
+        this(new double[]{x, y});
     }
 
 
@@ -61,6 +80,16 @@ public class Vector {
         return coordinates.multiply(other.coordinates.transpose());
     }
 
+    public Vector crossProduct(Vector other) {
+        validateSize(3);
+        validateSize(other);
+        Matrix matrix = outerProduct(other);
+        double x = matrix.get(1,2) - matrix.get(2,1);
+        double y = matrix.get(2,0) - matrix.get(0,2);
+        double z = matrix.get(0,1) - matrix.get(1,0);
+        return new Vector(x, y, z);
+    }
+
     public Vector projection(Vector other) {
         return other.normalized().multiply(dotProduct(other.normalized()));
     }
@@ -93,7 +122,6 @@ public class Vector {
         validateSize(other);
         return Math.acos(cosSimilarity(other));
     }
-
 
     public double distance(Vector other) {
         validateSize(other);
@@ -135,6 +163,26 @@ public class Vector {
 
     public VectorMatrix getCoordinates() {
         return VectorMatrix.copyOf(coordinates, coordinates.getType());
+    }
+
+    public PolarCoordinates toPolar() {
+        validateSize(2);
+        double theta = Math.acos(get(0) / norm());
+        return new PolarCoordinates(norm(), theta);
+    }
+
+    public SphericalCoordinates toSpherical() {
+        validateSize(3);
+        double theta = Math.acos(get(2) / norm());
+        double phi = Math.atan2(get(1), get(0));
+        return new SphericalCoordinates(norm(), theta, phi);
+    }
+
+    public CylindricalCoordinates toCylindrical() {
+        validateSize(3);
+        double r = new Vector(get(0), get(1)).norm();
+        double theta = Math.atan2(get(1), get(0));
+        return new CylindricalCoordinates(r, theta, get(2));
     }
 
     public double get(int index) {
@@ -185,6 +233,10 @@ public class Vector {
 
     private void validateSize(Vector other) {
         if (other.size != size) throw new IllegalArgumentException("Vector size doesn't match");
+    }
+
+    private void validateSize(int size) {
+        if (this.size != size) throw new IllegalArgumentException("Vector size must be " + size);
     }
 
     private void validateNormalization() {

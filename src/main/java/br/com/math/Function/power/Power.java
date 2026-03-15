@@ -1,4 +1,7 @@
-package br.com.math.function;
+package br.com.math.function.power;
+
+import br.com.math.function.Differentiable;
+import br.com.math.function.exponential.Logarithmic;
 
 public class Power implements Differentiable {
 

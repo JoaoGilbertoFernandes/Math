@@ -1,6 +1,7 @@
 package br.com.math.function;
 
 import br.com.math.function.polynomial.Polynomial;
+import br.com.math.function.power.Reciprocal;
 
 import java.util.List;
 import java.util.function.Function;
@@ -10,19 +11,44 @@ import static br.com.math.MathUtils.factorial;
 
 public interface Differentiable extends Function<Double, Double> {
 
-    static Differentiable zeroFunction() {
-        return new Differentiable() {
+    static Integrable zeroFunction() {
+        return new Integrable() {
             @Override
             public Double apply(Double x) {
                 return 0.0;
             }
             @Override
-            public Differentiable derivative() {
+            public Integrable derivative() {
+                return this;
+            }
+            @Override
+            public Integrable integral() {
                 return this;
             }
             @Override
             public boolean isZeroFunction() {
                 return true;
+            }
+        };
+    }
+
+    static Integrable constantFunction(double value) {
+        return new Integrable() {
+            @Override
+            public Double apply(Double x) {
+                return value;
+            }
+            @Override
+            public Integrable derivative() {
+                return zeroFunction();
+            }
+            @Override
+            public Integrable integral() {
+                return new Polynomial(1, value);
+            }
+            @Override
+            public boolean isZeroFunction() {
+                return false;
             }
         };
     }
@@ -58,21 +84,11 @@ public interface Differentiable extends Function<Double, Double> {
     }
 
     default Differentiable subtract(Differentiable other) {
-        Differentiable self = this;
-        return new Differentiable() {
-            @Override
-            public Double apply(Double x) {
-                return self.apply(x) - other.apply(x);
-            }
-            @Override
-            public Differentiable derivative() {
-                return self.derivative().subtract(other.derivative());
-            }
-            @Override
-            public boolean isZeroFunction() {
-                return self.isZeroFunction() && other.isZeroFunction();
-            }
-        };
+        return add(other.multiply(-1));
+    }
+
+    default Differentiable multiply(double value) {
+        return multiply(Differentiable.constantFunction(value));
     }
 
     default Differentiable multiply(Differentiable other) {
