@@ -52,18 +52,27 @@ public record Logarithmic(double base, double amplitude, double rate) implements
 
     @Override
     public @NotNull String toString() {
-        StringBuilder sb = new StringBuilder("f(x) = ");
-
+        StringBuilder sb = new StringBuilder();
         String logPrefix;
         if (base == Math.E) logPrefix = "ln(";
         else if (base == 10.0) logPrefix = "log(";
         else logPrefix = String.format("log<%.2f>(", base);
 
-        if (amplitude != 1.0) sb.append(String.format("%.2f·", amplitude));
+        if (Math.abs(amplitude) != 1.0) {
+            sb.append(String.format("%.2f·", amplitude));
+        } else if (amplitude < 0.0) {
+            sb.append("-");
+        }
 
         sb.append(logPrefix);
-        if (rate == 1.0) sb.append("x)");
-        else sb.append(String.format("%.2f·x)", rate));
+        if (Math.abs(rate) != 1.0) {
+            sb.append(String.format("%.2f·", rate));
+        }
+        else if (rate < 0.0) {
+            sb.append("-");
+        }
+
+        sb.append("x)");
         return sb.toString().trim();
     }
 

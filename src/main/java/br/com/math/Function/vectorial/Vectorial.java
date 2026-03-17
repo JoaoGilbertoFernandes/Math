@@ -2,10 +2,12 @@ package br.com.math.function.vectorial;
 
 import br.com.math.function.Differentiable;
 import br.com.math.function.Integrable;
+import br.com.math.function.power.Power;
 import br.com.math.vector.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 import static br.com.math.function.Differentiable.*;
@@ -16,9 +18,9 @@ public class Vectorial {
 
     private final List<Differentiable> functions;
 
-    public Vectorial(List<? extends Differentiable> functions) {
-        size = functions.size();
-        this.functions = List.copyOf(functions);
+    public Vectorial(Differentiable f, Differentiable g) {
+        size = 2;
+        functions = List.of(f, g);
     }
 
     public Vectorial(Differentiable f, Differentiable g, Differentiable h) {
@@ -26,10 +28,11 @@ public class Vectorial {
         functions = List.of(f, g, h);
     }
 
-    public static Vectorial zero() {
-        Integrable zf = zeroFunction();
-        return new Vectorial(zf, zf, zf);
+    public Vectorial(List<? extends Differentiable> functions) {
+        size = functions.size();
+        this.functions = List.copyOf(functions);
     }
+
 
     public static Vectorial zero(int size) {
         List<Integrable> zeroFunctions = IntStream.range(0, size)
@@ -78,9 +81,14 @@ public class Vectorial {
         validateSize(3);
         validateSize(other);
 
-        Differentiable f = get(1).multiply(other.get(2)).subtract(get(2).multiply(other.get(1)));
-        Differentiable g = get(2).multiply(other.get(0)).subtract(get(0).multiply(other.get(2)));
-        Differentiable h = get(0).multiply(other.get(1)).subtract(get(1).multiply(other.get(0)));
+        Differentiable f = get(1).multiply(other.get(2))
+                .subtract(get(2).multiply(other.get(1)));
+
+        Differentiable g = get(2).multiply(other.get(0))
+                .subtract(get(0).multiply(other.get(2)));
+
+        Differentiable h = get(0).multiply(other.get(1))
+                .subtract(get(1).multiply(other.get(0)));
 
         return new Vectorial(f, g, h);
     }
@@ -121,12 +129,39 @@ public class Vectorial {
         return new Vectorial(result);
     }
 
+    public Differentiable norm() {
+        Power sqr = new Power(1.0);
+        return sqr.compose(dotProduct(this));
+    }
+
+    public Vectorial normalized() {
+        validateNormalization();
+        List<Differentiable> result = functions.stream()
+                .map(f -> f.divide(norm()))
+                .toList();
+
+        return new Vectorial(result);
+    }
+
     public Differentiable get(int index) {
         return functions.get(index);
     }
 
-    public int getSize() {
+    public int size() {
         return size;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("(");
+        for (int i = 0; i < size; i++) {
+            Differentiable val = Objects.equals(get(i), zeroFunction()) ? zeroFunction() : get(i);
+            sb.append(val);
+            if (i < size - 1) sb.append(", ");
+        }
+        sb.append(")");
+        return sb.toString();
     }
 
 
@@ -138,5 +173,9 @@ public class Vectorial {
 
     private void validateSize(int size) {
         if (this.size != size) throw new IllegalArgumentException();
+    }
+
+    private void validateNormalization() {
+        if (norm().isZeroFunction()) throw new ArithmeticException("Cannot normalize zero vector");
     }
 }

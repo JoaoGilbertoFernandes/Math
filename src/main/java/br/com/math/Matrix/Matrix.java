@@ -237,7 +237,7 @@ public class Matrix {
                 .toArray();
     }
 
-    public int getCols() {
+    public int colSize() {
         return cols;
     }
 
@@ -271,7 +271,7 @@ public class Matrix {
         return Arrays.copyOf(data[row], cols);
     }
 
-    public int getRows() {
+    public int rowSize() {
         return rows;
     }
 

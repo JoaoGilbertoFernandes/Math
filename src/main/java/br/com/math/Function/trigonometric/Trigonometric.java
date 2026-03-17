@@ -48,27 +48,34 @@ public abstract class Trigonometric implements Integrable {
         };
     }
 
-    public double getAmplitude() {
+    public TrigonometricType type() {
+        return type;
+    }
+
+    public double amplitude() {
         return amplitude;
     }
 
-    public double getFrequency() {
+    public double frequency() {
         return frequency;
     }
 
-    public double getPhase() {
+    public double phase() {
         return phase;
     }
 
-    public double getPeriod() {
+    public double period() {
         return (2 * Math.PI) / frequency;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("f(x) = ");
-        if (amplitude != 1.0) {
+        StringBuilder sb = new StringBuilder();
+        if (Math.abs(amplitude) != 1.0) {
             sb.append(String.format("%.2f·", amplitude));
+        }
+        else if (amplitude < 0.0) {
+            sb.append("-");
         }
         String func = switch (type) {
             case SINE -> "sin(";

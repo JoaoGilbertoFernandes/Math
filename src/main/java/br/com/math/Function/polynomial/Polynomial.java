@@ -28,14 +28,6 @@ public class Polynomial implements Integrable {
         degree = this.coefficients.size() - 1;
     }
 
-    public static Polynomial zero(int degree) {
-        List<Double> coefficients = IntStream
-                .range(0, degree + 1)
-                .mapToObj(i -> 0.0)
-                .toList();
-
-        return new Polynomial(coefficients);
-    }
 
     public static Polynomial identity() {
         return new Polynomial(1, 1.0);
@@ -79,11 +71,11 @@ public class Polynomial implements Integrable {
         return coefficients.get(index);
     }
 
-    public int getDegree() {
+    public int degree() {
         return degree;
     }
 
-    public List<Double> getCoefficients() {
+    public List<Double> coefficients() {
         return coefficients;
     }
 
@@ -102,7 +94,6 @@ public class Polynomial implements Integrable {
             index = i;
             break;
         }
-        sb.append("f(x) = ");
         if (index == 0) sb.append(String.format("%.2f ", get(0)));
         else if (index == 1) sb.append("x ");
         else sb.append(String.format("%.2f·", get(index))).append("x").append(superscript(index));

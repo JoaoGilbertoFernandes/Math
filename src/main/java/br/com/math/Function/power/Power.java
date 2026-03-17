@@ -42,17 +42,31 @@ public class Power implements Differentiable {
         return new Power(degree + 1, coefficient / (degree + 1));
     }
 
-    public double getDegree() {
+    public double degree() {
         return degree;
     }
 
-    public double getCoefficient() {
+    public double coefficient() {
         return coefficient;
     }
 
     @Override
     public String toString() {
-        return String.format("%.2f·x^%.2f", coefficient, degree);
+        if (coefficient == 0.0) return Differentiable.zeroFunction().toString();
+        StringBuilder sb = new StringBuilder();
+        if (Math.abs(coefficient) != 1.0) {
+            sb.append(String.format("%.2f·", coefficient));
+        } else if (coefficient < 0.0) {
+            sb.append("-");
+        }
+        sb.append("x^");
+        if (Math.abs(degree) != 1.0) {
+            sb.append(String.format("%.2f", degree));
+        }
+        else if (degree < 0.0) {
+            sb.append("-1");
+        }
+        return sb.toString();
     }
 
     @Override

@@ -12,45 +12,11 @@ import static br.com.math.MathUtils.factorial;
 public interface Differentiable extends Function<Double, Double> {
 
     static Integrable zeroFunction() {
-        return new Integrable() {
-            @Override
-            public Double apply(Double x) {
-                return 0.0;
-            }
-            @Override
-            public Integrable derivative() {
-                return this;
-            }
-            @Override
-            public Integrable integral() {
-                return this;
-            }
-            @Override
-            public boolean isZeroFunction() {
-                return true;
-            }
-        };
+        return new Polynomial(0, 0);
     }
 
     static Integrable constantFunction(double value) {
-        return new Integrable() {
-            @Override
-            public Double apply(Double x) {
-                return value;
-            }
-            @Override
-            public Integrable derivative() {
-                return zeroFunction();
-            }
-            @Override
-            public Integrable integral() {
-                return new Polynomial(1, value);
-            }
-            @Override
-            public boolean isZeroFunction() {
-                return false;
-            }
-        };
+        return new Polynomial(0, value);
     }
 
     boolean isZeroFunction();
@@ -80,6 +46,10 @@ public interface Differentiable extends Function<Double, Double> {
             public boolean isZeroFunction() {
                 return self.isZeroFunction() && other.isZeroFunction();
             }
+            @Override
+            public String toString() {
+                return self + " + " + other.toString();
+            }
         };
     }
 
@@ -106,29 +76,15 @@ public interface Differentiable extends Function<Double, Double> {
             public boolean isZeroFunction() {
                 return self.isZeroFunction() || other.isZeroFunction();
             }
+            @Override
+            public String toString() {
+                return "(" + self + ")" + "·" + "(" + other.toString() + ")";
+            }
         };
     }
 
     default Differentiable divide(Differentiable other) {
-        Differentiable self = this;
-        return new Differentiable() {
-            @Override
-            public Double apply(Double x) {
-                if (other.apply(x) == 0.0) {
-                    throw new ArithmeticException("Division by zero at x = " + x);
-                }
-                return self.apply(x) / other.apply(x);
-            }
-            @Override
-            public Differentiable derivative() {
-                Differentiable invOther = new Reciprocal().compose(other);
-                return multiply(invOther).derivative();
-            }
-            @Override
-            public boolean isZeroFunction() {
-                return self.isZeroFunction();
-            }
-        };
+        return multiply(new Reciprocal().compose(other));
     }
 
     default Differentiable compose(Differentiable inner) {
@@ -145,6 +101,10 @@ public interface Differentiable extends Function<Double, Double> {
             @Override
             public boolean isZeroFunction() {
                 return outer.compose(inner).isZeroFunction();
+            }
+            @Override
+            public String toString() {
+                return outer.toString().replace("x", "(" + inner.toString() + ")");
             }
         };
     }

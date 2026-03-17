@@ -81,7 +81,7 @@ public class Affine extends Polynomial {
             throw new IllegalArgumentException("Vectors are both zero");
         }
         if (v.equals(u)) {
-            return v.subtract(Vector.zero(v.getSize()));
+            return v.subtract(Vector.zero(v.size()));
         }
         if (v.subtract(u).get(0) == 0) {
             throw new IllegalArgumentException("Vectors lie at the same vertical line");

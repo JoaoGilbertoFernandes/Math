@@ -10,10 +10,8 @@ public class Reciprocal extends Power {
         super(validateDegree(degree), amplitude);
     }
 
-    @Override
-    public String toString() {
-        return String.format("%.2f·x^%d", getCoefficient(), (int) getDegree());
-    }
+
+
 
     private static double validateDegree(double value) {
         if (value == 0) throw new IllegalArgumentException("Degree cannot be zero.");

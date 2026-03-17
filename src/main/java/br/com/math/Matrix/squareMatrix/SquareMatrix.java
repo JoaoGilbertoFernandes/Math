@@ -26,7 +26,7 @@ public class SquareMatrix extends Matrix {
         return new DiagonalMatrix(size);
     }
 
-    public int getSize() {
+    public int size() {
         return size;
     }
 

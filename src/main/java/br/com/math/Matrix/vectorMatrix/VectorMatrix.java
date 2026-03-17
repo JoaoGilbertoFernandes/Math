@@ -57,14 +57,14 @@ public abstract class VectorMatrix extends Matrix {
     }
 
     public double get(int index) {
-        return (type == ROW) ? getRow(index)[0] : getCol(index)[0];
+        return type == ROW ? getCol(index)[0] : getRow(index)[0];
     }
 
-    public int getSize() {
+    public int size() {
         return size;
     }
 
-    public VectorType getType() {
+    public VectorType type() {
         return type;
     }
 
@@ -136,6 +136,8 @@ public abstract class VectorMatrix extends Matrix {
             case COLUMN -> copyOf(super.transpose(), ROW,0);
         };
     }
+
+
 
     private static double[][] vectorData(double[] data, VectorType type) {
         int size = data.length;

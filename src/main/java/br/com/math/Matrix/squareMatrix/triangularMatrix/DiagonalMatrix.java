@@ -6,7 +6,6 @@ import static br.com.math.matrix.squareMatrix.triangularMatrix.TriangularType.DI
 
 public class DiagonalMatrix extends TriangularMatrix {
 
-
     public DiagonalMatrix(int size) {
         super(size, DIAGONAL);
     }
