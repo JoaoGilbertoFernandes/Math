@@ -39,6 +39,11 @@ public record Logarithmic(double base, double amplitude, double rate) implements
                 .subtract(new Polynomial(1, amplitude / Math.log(base)));
     }
 
+    @Override
+    public Logarithmic multiply(double value) {
+        return new Logarithmic(base, value * amplitude, rate);
+    }
+
     public Logarithmic changeBase() {
         return changeBase(Math.E);
     }

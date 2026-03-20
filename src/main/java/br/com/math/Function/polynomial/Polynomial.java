@@ -5,7 +5,6 @@ import br.com.math.function.Integrable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 public class Polynomial implements Integrable {
@@ -56,8 +55,7 @@ public class Polynomial implements Integrable {
 
     @Override
     public Polynomial integral() {
-        double c = ThreadLocalRandom.current().nextDouble(0.0, 10.0);
-        List<Double> integralCoefficients = new ArrayList<>(List.of(c));
+        List<Double> integralCoefficients = new ArrayList<>(List.of(0.0));
         List<Double> others = IntStream
                 .range(0, coefficients.size())
                 .mapToObj(i -> coefficients.get(i) / (i + 1))
@@ -65,6 +63,15 @@ public class Polynomial implements Integrable {
 
         integralCoefficients.addAll(others);
         return new Polynomial(integralCoefficients);
+    }
+
+    @Override
+    public Polynomial multiply(double value) {
+        List<Double> result = coefficients.stream()
+                .map(c -> value * c)
+                .toList();
+
+        return new Polynomial(result);
     }
 
     public double get(int index) {
@@ -87,16 +94,29 @@ public class Polynomial implements Integrable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         int index = 0;
+        double coef = 0;
         for (int i = 0; i <= degree; i++) {
             if (get(i) == 0.0) {
                 continue;
             }
             index = i;
+            coef = get(index);
             break;
         }
-        if (index == 0) sb.append(String.format("%.2f ", get(0)));
-        else if (index == 1) sb.append("x ");
-        else sb.append(String.format("%.2f·", get(index))).append("x").append(superscript(index));
+        if (index == 0) {
+            sb.append(String.format("%.2f ", get(0)));
+        }
+        else if (index == 1) {
+            if (coef == 1.0) sb.append("x");
+            else if (coef == -1.0) sb.append("-x");
+            else sb.append(String.format("%.2f·x ", coef));
+        }
+        else {
+            if (coef == 1.0) sb.append("x").append(superscript(index));
+            else if (coef == -1.0) sb.append("-x").append(superscript(index));
+            else sb.append(String.format("%.2f·", get(index)))
+                        .append("x").append(superscript(index));
+        }
         for (int i = index + 1; i <= degree; i++) {
             sb.append(formatCoefficients(get(i), i));
         }
@@ -175,8 +195,6 @@ public class Polynomial implements Integrable {
         StringBuilder sb = new StringBuilder();
         for (char c : digits.toCharArray()) {
             switch (c) {
-                case '0': sb.append("⁰"); break;
-                case '1': sb.append("¹"); break;
                 case '2': sb.append("²"); break;
                 case '3': sb.append("³"); break;
                 case '4': sb.append("⁴"); break;

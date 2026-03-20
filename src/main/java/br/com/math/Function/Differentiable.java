@@ -11,11 +11,11 @@ import static br.com.math.MathUtils.factorial;
 
 public interface Differentiable extends Function<Double, Double> {
 
-    static Integrable zeroFunction() {
+    static Polynomial zeroFunction() {
         return new Polynomial(0, 0);
     }
 
-    static Integrable constantFunction(double value) {
+    static Polynomial constantFunction(double value) {
         return new Polynomial(0, value);
     }
 
@@ -47,8 +47,18 @@ public interface Differentiable extends Function<Double, Double> {
                 return self.isZeroFunction() && other.isZeroFunction();
             }
             @Override
+            public Differentiable multiply(double value) {
+                return self.add(other).multiply(value);
+            }
+            @Override
             public String toString() {
-                return self + " + " + other.toString();
+                if (other.isZeroFunction()) {
+                    return self.toString();
+                }
+                if (self.isZeroFunction()) {
+                    return other.toString();
+                }
+                return self + " + " + other;
             }
         };
     }
@@ -57,9 +67,7 @@ public interface Differentiable extends Function<Double, Double> {
         return add(other.multiply(-1));
     }
 
-    default Differentiable multiply(double value) {
-        return multiply(Differentiable.constantFunction(value));
-    }
+    Differentiable multiply(double value);
 
     default Differentiable multiply(Differentiable other) {
         Differentiable self = this;
@@ -77,7 +85,14 @@ public interface Differentiable extends Function<Double, Double> {
                 return self.isZeroFunction() || other.isZeroFunction();
             }
             @Override
+            public Differentiable multiply(double value) {
+                return self.multiply(other).multiply(constantFunction(value));
+            }
+            @Override
             public String toString() {
+                if (isZeroFunction() || other.isZeroFunction()) {
+                    return zeroFunction().toString();
+                }
                 return "(" + self + ")" + "·" + "(" + other.toString() + ")";
             }
         };
@@ -101,6 +116,10 @@ public interface Differentiable extends Function<Double, Double> {
             @Override
             public boolean isZeroFunction() {
                 return outer.compose(inner).isZeroFunction();
+            }
+            @Override
+            public Differentiable multiply(double value) {
+                return compose(inner).multiply(value);
             }
             @Override
             public String toString() {

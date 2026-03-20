@@ -2,6 +2,7 @@ package br.com.math.function.vectorial;
 
 import br.com.math.function.Differentiable;
 import br.com.math.function.Integrable;
+import br.com.math.function.polynomial.Polynomial;
 import br.com.math.function.power.Power;
 import br.com.math.vector.Vector;
 
@@ -35,7 +36,7 @@ public class Vectorial {
 
 
     public static Vectorial zero(int size) {
-        List<Integrable> zeroFunctions = IntStream.range(0, size)
+        List<Polynomial> zeroFunctions = IntStream.range(0, size)
                 .mapToObj(i -> zeroFunction()).toList();
 
         return new Vectorial(zeroFunctions);
@@ -120,7 +121,7 @@ public class Vectorial {
     }
 
     public Vectorial integral(int order) {
-        List<Differentiable> result = new ArrayList<>();
+        List<Integrable> result = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             Integrable f = (Integrable) functions.get(i);
             Integrable g = f.integral(order);

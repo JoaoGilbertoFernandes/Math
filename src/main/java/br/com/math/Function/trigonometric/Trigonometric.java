@@ -48,6 +48,14 @@ public abstract class Trigonometric implements Integrable {
         };
     }
 
+    @Override
+    public Trigonometric multiply(double value) {
+        return switch (type) {
+            case SINE -> new Sine(value * amplitude, frequency, phase);
+            case COSINE -> new Cosine(value * amplitude, frequency, phase);
+        };
+    }
+
     public TrigonometricType type() {
         return type;
     }

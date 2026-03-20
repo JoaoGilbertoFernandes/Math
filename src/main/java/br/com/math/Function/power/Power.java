@@ -42,6 +42,11 @@ public class Power implements Differentiable {
         return new Power(degree + 1, coefficient / (degree + 1));
     }
 
+    @Override
+    public Power multiply(double value) {
+        return new Power(degree, value * coefficient);
+    }
+
     public double degree() {
         return degree;
     }

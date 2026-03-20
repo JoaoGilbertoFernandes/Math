@@ -5,6 +5,9 @@ public interface Integrable extends Differentiable {
     @Override
     Integrable derivative();
 
+    @Override
+    Integrable multiply(double value);
+
     Integrable integral();
 
     @Override
@@ -17,16 +20,24 @@ public interface Integrable extends Differentiable {
     }
 
     default Integrable integral(int order) {
+        return integral(order, 0.0);
+    }
+
+    default Integrable integral(double constant) {
+        return Differentiable.constantFunction(constant).add(integral());
+    }
+
+    default Integrable integral(int order, double constant) {
         Integrable integral = this;
         for (int i = 0; i < order; i++) {
-            integral = integral.integral();
+            integral = integral.integral(constant);
         }
         return integral;
     }
 
     default Integrable add(Integrable other) {
+        final Integrable self = this;
         return new Integrable() {
-            final Integrable self = this;
             @Override
             public Double apply(Double x) {
                 return self.apply(x) + other.apply(x);
@@ -43,33 +54,24 @@ public interface Integrable extends Differentiable {
             public boolean isZeroFunction() {
                 return self.isZeroFunction() && other.isZeroFunction();
             }
+            @Override
+            public Integrable multiply(double value) {
+                return self.multiply(value).add(other.multiply(value));
+            }
+            @Override
+            public String toString() {
+                if (other.isZeroFunction()) {
+                    return self.toString();
+                }
+                if (self.isZeroFunction()) {
+                    return other.toString();
+                }
+                return self + " + " + other;
+            }
         };
     }
 
     default Integrable subtract(Integrable other) {
         return add(other.multiply(-1));
-    }
-
-    @Override
-    default Integrable multiply(double value) {
-        return new Integrable() {
-            final Integrable self = this;
-            @Override
-            public Double apply(Double x) {
-                return self.apply(x) * value;
-            }
-            @Override
-            public Integrable integral() {
-                return self.integral().multiply(value);
-            }
-            @Override
-            public Integrable derivative() {
-                return self.derivative().multiply(value);
-            }
-            @Override
-            public boolean isZeroFunction() {
-                return self.isZeroFunction() || value == 0;
-            }
-        };
     }
 }

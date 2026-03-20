@@ -33,6 +33,11 @@ public record Exponential(double base, double amplitude, double rate) implements
         return new Exponential(base, (amplitude / (rate * Math.log(base))), rate);
     }
 
+    @Override
+    public Exponential multiply(double value) {
+        return new Exponential(base, value * amplitude, rate);
+    }
+
     public Exponential changeBase() {
         return changeBase(Math.E);
     }

@@ -39,6 +39,7 @@ build/
 .DS_Store
 
 ## Project ##
+src/test
 MatrixNotes.java
 DiagonalNotes.java
 LowerNotes.java
