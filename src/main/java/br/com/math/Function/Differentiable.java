@@ -115,7 +115,7 @@ public interface Differentiable extends Function<Double, Double> {
             }
             @Override
             public boolean isZeroFunction() {
-                return outer.compose(inner).isZeroFunction();
+                return outer.isZeroFunction() || (inner.isZeroFunction() && outer.apply(0.0) == 0.0);
             }
             @Override
             public Differentiable multiply(double value) {
@@ -123,17 +123,18 @@ public interface Differentiable extends Function<Double, Double> {
             }
             @Override
             public String toString() {
-                return outer.toString().replace("x", "(" + inner.toString() + ")");
+                return outer.toString()
+                        .replace("x",  inner.toString());
             }
         };
     }
 
     default Polynomial taylorSerie(int order, double point) {
-        if (this instanceof Polynomial) return (Polynomial) this;
-        List<Double> terms = IntStream.range(0, order)
+        if (this instanceof Polynomial p) return p;
+        List<Double> terms = IntStream.range(0, order + 1)
                 .mapToObj(i -> derivative(i).apply(point) / factorial(i))
                 .toList();
 
-        return new Polynomial(terms);
+        return new Polynomial(point, terms);
     }
 }

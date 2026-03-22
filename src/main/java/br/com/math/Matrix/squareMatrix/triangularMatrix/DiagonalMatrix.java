@@ -10,6 +10,15 @@ public class DiagonalMatrix extends TriangularMatrix {
         super(size, DIAGONAL);
     }
 
+    public DiagonalMatrix(double ... data) {
+        int size = data.length;
+        double[][] superData = new double[size][size];
+        for (int i = 0; i < data.length; i++) {
+            superData[i][i] = data[i];
+        }
+        this(superData);
+    }
+
     public DiagonalMatrix(double[][] data) {
         super(data, DIAGONAL);
     }

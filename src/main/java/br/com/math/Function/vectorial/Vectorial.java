@@ -19,14 +19,8 @@ public class Vectorial {
 
     private final List<Differentiable> functions;
 
-    public Vectorial(Differentiable f, Differentiable g) {
-        size = 2;
-        functions = List.of(f, g);
-    }
-
-    public Vectorial(Differentiable f, Differentiable g, Differentiable h) {
-        size = 3;
-        functions = List.of(f, g, h);
+    public Vectorial(Differentiable ... functions) {
+        this(List.of(functions));
     }
 
     public Vectorial(List<? extends Differentiable> functions) {

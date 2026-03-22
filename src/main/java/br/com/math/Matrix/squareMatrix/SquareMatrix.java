@@ -14,7 +14,7 @@ public class SquareMatrix extends Matrix {
 
     public SquareMatrix(double[][] data) {
         super(squareData(data));
-        this.size = data.length;
+        size = data.length;
     }
 
     public SquareMatrix(Matrix matrix) {

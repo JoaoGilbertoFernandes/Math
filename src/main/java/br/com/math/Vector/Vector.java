@@ -22,17 +22,9 @@ public class Vector {
         coordinates = new ColumnMatrix(size);
     }
 
-    public Vector(double x, double y) {
-        this(new double[]{x, y});
-    }
-
-    public Vector(double x, double y, double z) {
-        this(new double[]{x, y, z});
-    }
-
-    public Vector(double[] data) {
-        size = data.length;
-        coordinates = new ColumnMatrix(data);
+    public Vector(double ... coordinates) {
+        size = coordinates.length;
+        this.coordinates = new ColumnMatrix(coordinates);
     }
 
     public Vector(VectorMatrix coordinates) {

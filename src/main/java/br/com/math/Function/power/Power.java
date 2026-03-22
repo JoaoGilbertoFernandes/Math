@@ -32,6 +32,7 @@ public class Power implements Differentiable {
 
     @Override
     public Differentiable derivative() {
+        if (degree == 0.0) return Differentiable.zeroFunction();
         return new Power(degree - 1, coefficient * degree);
     }
 
@@ -58,18 +59,21 @@ public class Power implements Differentiable {
     @Override
     public String toString() {
         if (coefficient == 0.0) return Differentiable.zeroFunction().toString();
+        if (degree == 0.0) return Differentiable.constantFunction(coefficient).toString();
         StringBuilder sb = new StringBuilder();
         if (Math.abs(coefficient) != 1.0) {
-            sb.append(String.format("%.2f·", coefficient));
+            sb.append(String.format("%.2f", coefficient));
         } else if (coefficient < 0.0) {
             sb.append("-");
         }
-        sb.append("x^");
         if (Math.abs(degree) != 1.0) {
-            sb.append(String.format("%.2f", degree));
+            sb.append(String.format("x^%.2f", degree));
         }
         else if (degree < 0.0) {
-            sb.append("-1");
+            sb.append("x^-1");
+        }
+        else {
+            sb.append("x");
         }
         return sb.toString();
     }

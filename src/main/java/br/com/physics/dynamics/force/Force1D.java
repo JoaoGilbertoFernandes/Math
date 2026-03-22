@@ -18,7 +18,7 @@ public class Force1D {
     }
 
     public Force1D(Function<Double, Double> function) {
-        this.value = function.apply(0.0);
+        value = function.apply(0.0);
         this.function = function;
     }
 

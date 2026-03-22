@@ -1,7 +1,13 @@
 package br.com.math.function;
 
+import br.com.math.function.exponential.Exponential;
 import br.com.math.function.exponential.Logarithmic;
 import br.com.math.function.polynomial.Polynomial;
+import br.com.math.function.power.Power;
+import br.com.math.function.trigonometric.Cosine;
+import br.com.math.function.trigonometric.Sine;
+
+import java.util.List;
 
 public class FunctionTest {
 
@@ -32,13 +38,8 @@ public class FunctionTest {
         PolynomialFunction derivative = function.derivative(2);
          */
 
-        Logarithmic f = new Logarithmic(2.0, 0.5);
-        Polynomial g = new Polynomial(2, 2);
-        Differentiable h = f.compose(g);
-//        Polynomial serie = function.taylorSerie(10, 0.0);
-        IO.println(f);
-        IO.println(g);
-        IO.println(h.apply(Math.E));
+        Differentiable function = new Exponential();
+        IO.println(function.taylorSerie(7, 0.0).apply(2.0));
 //        IO.println(derivative.apply(1.0));
 
     }

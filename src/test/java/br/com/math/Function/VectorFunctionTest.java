@@ -13,8 +13,7 @@ import static br.com.math.function.Differentiable.*;
 public class VectorFunctionTest {
 
     static void main() {
-        Sine sine = new Sine();
-        IO.println(sine);
-        IO.println(sine.integral(4,6.0));
+        Vectorial v = new Vectorial(new Exponential(), new Logarithmic(), new Cosine(), new Sine());
+        IO.println(v);
     }
 }
