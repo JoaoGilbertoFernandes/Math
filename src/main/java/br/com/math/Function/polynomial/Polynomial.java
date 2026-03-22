@@ -3,9 +3,9 @@ package br.com.math.function.polynomial;
 import br.com.math.function.Integrable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 public class Polynomial implements Integrable {
@@ -14,7 +14,14 @@ public class Polynomial implements Integrable {
 
     private final List<Double> coefficients;
 
+    private final double shift;
+
     public Polynomial(int degree, double coefficient) {
+        this(0.0, degree, coefficient);
+    }
+
+    public Polynomial(double shift, int degree, double coefficient) {
+        this.shift = shift;
         this.degree = validateDegree(degree);
         List<Double> coefficients = new ArrayList<>(
                 Collections.nCopies(this.degree + 1, 0.0)
@@ -23,19 +30,22 @@ public class Polynomial implements Integrable {
         this.coefficients = coefficients;
     }
 
+    public Polynomial(double shift, double ... coefficients) {
+        this(shift, Arrays.stream(coefficients)
+                .boxed()
+                .toList());
+    }
+
     public Polynomial(List<Double> coefficients) {
+        this(0.0, coefficients);
+    }
+
+    public Polynomial(double shift, List<Double> coefficients) {
         this.coefficients = setCoefficients(coefficients);
+        this.shift = shift;
         degree = this.coefficients.size() - 1;
     }
 
-    public static Polynomial zero(int degree) {
-        List<Double> coefficients = IntStream
-                .range(0, degree + 1)
-                .mapToObj(i -> 0.0)
-                .toList();
-
-        return new Polynomial(coefficients);
-    }
 
     public static Polynomial identity() {
         return new Polynomial(1, 1.0);
@@ -43,10 +53,9 @@ public class Polynomial implements Integrable {
 
     @Override
     public Double apply(Double x) {
-        if (x == 0) return coefficients.getFirst();
         double result = 0.0;
         for (int i = degree; i >= 0; i--) {
-            result = (result * x) + coefficients.get(i);
+            result = (result * (x - shift)) + coefficients.get(i);
         }
         return result;
     }
@@ -64,8 +73,7 @@ public class Polynomial implements Integrable {
 
     @Override
     public Polynomial integral() {
-        double c = ThreadLocalRandom.current().nextDouble(0.0, 10.0);
-        List<Double> integralCoefficients = new ArrayList<>(List.of(c));
+        List<Double> integralCoefficients = new ArrayList<>(List.of(0.0));
         List<Double> others = IntStream
                 .range(0, coefficients.size())
                 .mapToObj(i -> coefficients.get(i) / (i + 1))
@@ -75,15 +83,24 @@ public class Polynomial implements Integrable {
         return new Polynomial(integralCoefficients);
     }
 
+    @Override
+    public Polynomial multiply(double value) {
+        List<Double> result = coefficients.stream()
+                .map(c -> value * c)
+                .toList();
+
+        return new Polynomial(result);
+    }
+
     public double get(int index) {
         return coefficients.get(index);
     }
 
-    public int getDegree() {
+    public int degree() {
         return degree;
     }
 
-    public List<Double> getCoefficients() {
+    public List<Double> coefficients() {
         return coefficients;
     }
 
@@ -95,17 +112,33 @@ public class Polynomial implements Integrable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         int index = 0;
+        StringBuilder arg = new StringBuilder();
+        if (shift == 0.0) arg.append("x ");
+        else if (shift > 0.0) arg.append("(x - ").append((String.format("%.2f", Math.abs(shift)))).append(") ");
+        else arg.append("(x + ").append((String.format("%.2f", Math.abs(shift)))).append(") ");
+        double coef = 0;
         for (int i = 0; i <= degree; i++) {
-            if (get(i) == 0.0) {
+            if (Math.abs(get(i)) < 1e-9) {
                 continue;
             }
             index = i;
+            coef = get(index);
             break;
         }
-        sb.append("f(x) = ");
-        if (index == 0) sb.append(String.format("%.2f ", get(0)));
-        else if (index == 1) sb.append("x ");
-        else sb.append(String.format("%.2f·", get(index))).append("x").append(superscript(index));
+        if (index == 0) {
+            sb.append(String.format("%.2f ", get(0)));
+        }
+        else if (index == 1) {
+            if (coef == 1.0) sb.append(arg);
+            else if (coef == -1.0) sb.append("-").append(arg);
+            else sb.append(String.format("%.6f·", coef)).append(arg);
+        }
+        else {
+            if (coef == 1.0) sb.append("x").append(superscript(index)).append(" ");
+            else if (coef == -1.0) sb.append("-x").append(superscript(index)).append(" ");
+            else sb.append(String.format("%.6f·", get(index)))
+                        .append("x").append(superscript(index));
+        }
         for (int i = index + 1; i <= degree; i++) {
             sb.append(formatCoefficients(get(i), i));
         }
@@ -139,9 +172,9 @@ public class Polynomial implements Integrable {
     }
 
 
-
-
-    /** PRIVATE METHODS */
+    /** -------------------------------------------------------------------------------------------------------
+     * PRIVATE METHODS
+     */
 
     private static int validateDegree(int degree) {
         return Math.abs(degree);
@@ -162,19 +195,23 @@ public class Polynomial implements Integrable {
     private String formatCoefficients(double coef, int power)  {
         if (Math.abs(coef) < 1e-12) return "";
         StringBuilder part = new StringBuilder();
+        StringBuilder arg = new StringBuilder();
+        if (shift == 0.0) arg.append("x");
+        else if (shift > 0.0) arg.append("(x - ").append((String.format("%.2f", Math.abs(shift)))).append(")");
+        else arg.append("(x + ").append(String.format("%.2f", Math.abs(shift))).append(")");
         if (coef == 1.0) {
             part.append("+ ");
         } else if (coef == -1.0) {
             part.append("- ");
         } else if (coef > 0) {
-            part.append("+ ").append(String.format("%.2f·", coef));
+            part.append("+ ").append(String.format("%.6f·", coef));
         } else {
-            part.append("- ").append(String.format("%.2f·", Math.abs(coef)));
+            part.append("- ").append(String.format("%.6f·", Math.abs(coef)));
         }
         if (power == 1) {
-            part.append("x ");
+            part.append(arg).append(" ");
         } else {
-            part.append("x").append(superscript(power)).append(" ");
+            part.append(arg).append(superscript(power)).append(" ");
         }
         return part.toString();
     }

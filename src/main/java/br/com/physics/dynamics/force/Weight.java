@@ -17,7 +17,7 @@ public class Weight extends Force1D {
     }
 
     public Weight(double mass, Function<Double, Double> gravity) {
-        super(mass, gravity);
+        super(x -> mass * gravity.apply(x));
         this.mass = mass;
         this.gravity = gravity;
     }

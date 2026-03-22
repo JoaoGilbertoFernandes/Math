@@ -6,7 +6,6 @@ import static br.com.math.matrix.squareMatrix.triangularMatrix.TriangularType.LO
 
 public class LowerMatrix extends TriangularMatrix {
 
-
     public LowerMatrix(double[][] data) {
         super(data, LOWER);
     }

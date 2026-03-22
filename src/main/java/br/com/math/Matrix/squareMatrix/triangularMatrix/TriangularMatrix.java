@@ -89,7 +89,7 @@ public abstract class TriangularMatrix extends SquareMatrix {
 
     private double computeDeterminant() {
         double det = 1.0;
-        for (int i = 0; i < getRows(); i++) {
+        for (int i = 0; i < rowSize(); i++) {
             det *= getData()[i][i];
         }
         return det;

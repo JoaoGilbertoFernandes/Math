@@ -1,8 +1,8 @@
 package br.com.math.vector;
 
-import br.com.math.matrix.vectorMatrix.ColumnMatrix;
 import br.com.math.matrix.Matrix;
-import br.com.math.matrix.vectorMatrix.VectorMatrix;
+import br.com.math.matrix.vectorMatrix.*;
+import br.com.math.vector.coordinates.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,23 +10,30 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static br.com.math.matrix.vectorMatrix.VectorType.COLUMN;
+
 public class Vector {
 
-    protected final int size;
-    protected final ColumnMatrix coordinates;
+    private final int size;
+    private final ColumnMatrix coordinates;
 
     public Vector(int size) {
         this.size = size;
         coordinates = new ColumnMatrix(size);
     }
 
-    public Vector(double[] data) {
-        size = data.length;
-        coordinates = new ColumnMatrix(data);
+    public Vector(double ... coordinates) {
+        size = coordinates.length;
+        this.coordinates = new ColumnMatrix(coordinates);
     }
 
     public Vector(VectorMatrix coordinates) {
-        this(coordinates.getCol(0));
+        double[] data;
+        if (coordinates.type() == COLUMN)
+            data = coordinates.getCol(0);
+        else
+            data = coordinates.getRow(0);
+        this(data);
     }
 
 
@@ -59,6 +66,18 @@ public class Vector {
 
     public Matrix outerProduct(Vector other) {
         return coordinates.multiply(other.coordinates.transpose());
+    }
+
+    public Vector crossProduct(Vector other) {
+        validateSize(3);
+        validateSize(other);
+
+        Matrix matrix = outerProduct(other);
+        double x = matrix.get(1,2) - matrix.get(2,1);
+        double y = matrix.get(2,0) - matrix.get(0,2);
+        double z = matrix.get(0,1) - matrix.get(1,0);
+
+        return new Vector(x, y, z);
     }
 
     public Vector projection(Vector other) {
@@ -94,7 +113,6 @@ public class Vector {
         return Math.acos(cosSimilarity(other));
     }
 
-
     public double distance(Vector other) {
         validateSize(other);
         return subtract(other).norm();
@@ -127,21 +145,41 @@ public class Vector {
     public Vector baseChange(List<Vector> newBasis) {
         double[] data = new double[size];
         for (int i = 0; i < size; i++) {
-            double factor = dotProduct(newBasis.get(i)) * Math.pow(newBasis.get(i).norm(), -2);
+            double factor = dotProduct(newBasis.get(i).normalized()) / newBasis.get(i).norm();
             data[i] = factor;
         }
         return new Vector(data);
     }
 
-    public VectorMatrix getCoordinates() {
-        return VectorMatrix.copyOf(coordinates, coordinates.getType());
+    public VectorMatrix coordinates() {
+        return VectorMatrix.copyOf(coordinates, coordinates.type());
+    }
+
+    public Polar toPolar() {
+        validateSize(2);
+        double theta = Math.acos(get(0) / norm());
+        return new Polar(norm(), theta);
+    }
+
+    public Spherical toSpherical() {
+        validateSize(3);
+        double theta = Math.acos(get(2) / norm());
+        double phi = Math.atan2(get(1), get(0));
+        return new Spherical(norm(), theta, phi);
+    }
+
+    public Cylindrical toCylindrical() {
+        validateSize(3);
+        double r = new Vector(get(0), get(1)).norm();
+        double theta = Math.atan2(get(1), get(0));
+        return new Cylindrical(r, theta, get(2));
     }
 
     public double get(int index) {
         return coordinates.get(index);
     }
 
-    public int getSize() {
+    public int size() {
         return size;
     }
 
@@ -185,6 +223,10 @@ public class Vector {
 
     private void validateSize(Vector other) {
         if (other.size != size) throw new IllegalArgumentException("Vector size doesn't match");
+    }
+
+    private void validateSize(int size) {
+        if (this.size != size) throw new IllegalArgumentException("Vector size must be " + size);
     }
 
     private void validateNormalization() {

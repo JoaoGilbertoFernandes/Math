@@ -25,12 +25,12 @@ public class Matrix {
         validateDimensions(rows, cols);
         this.rows = rows;
         this.cols = cols;
-        this.data = new double[rows][cols];
+        data = new double[rows][cols];
     }
 
     public Matrix(double[][] data) {
-        this.rows = data.length;
-        this.cols = data[0].length;
+        rows = data.length;
+        cols = data[0].length;
         this.data = matrixData(data);
     }
 
@@ -237,7 +237,7 @@ public class Matrix {
                 .toArray();
     }
 
-    public int getCols() {
+    public int colSize() {
         return cols;
     }
 
@@ -271,7 +271,7 @@ public class Matrix {
         return Arrays.copyOf(data[row], cols);
     }
 
-    public int getRows() {
+    public int rowSize() {
         return rows;
     }
 
@@ -456,6 +456,10 @@ public class Matrix {
         return computeTranspose();
     }
 
+    /**
+     * Returns true if this {@code Matrix} instance has one or more rows in which all
+     * elements are zero.
+     */
     public boolean hasZeroRow() {
         for (int i = 0; i < rows; i++) {
             RowMatrix row = new RowMatrix(getRow(i));
@@ -464,6 +468,10 @@ public class Matrix {
         return false;
     }
 
+    /**
+     * Returns true if this {@code Matrix} instance has one or more columns in which all
+     * elements are zero.
+     */
     public boolean hasZeroCol() {
         for (int i = 0; i < cols; i++) {
             ColumnMatrix col = new ColumnMatrix(getCol(i));
@@ -472,6 +480,9 @@ public class Matrix {
         return false;
     }
 
+    /**
+     * Returns true if this {@code Matrix} instance has two or more equal rows.
+     */
     public boolean hasEqualRows() {
         for (int i = 0; i < rows; i++) {
             for (int j = i + 1; j < rows; j++) {
@@ -481,6 +492,9 @@ public class Matrix {
         return false;
     }
 
+    /**
+     * Returns true if this {@code Matrix} instance has two or more equal columns.
+     */
     public boolean hasEqualCols() {
         for (int i = 0; i < cols; i++) {
             for (int j = i + 1; j < cols; j++) {
@@ -534,8 +548,8 @@ public class Matrix {
     }
 
 
-
-    /** PRIVATE METHODS */
+    /** -------------------------------------------------------------------------------------------------------
+     * PRIVATE METHODS */
 
     private static double[][] matrixData(double[][] data) {
         validateData(data);

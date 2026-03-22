@@ -7,11 +7,11 @@ import static br.com.math.matrix.vectorMatrix.VectorType.COLUMN;
 public class ColumnMatrix extends VectorMatrix {
 
     public ColumnMatrix(int size) {
-        super(new double[size], COLUMN);
+        super(COLUMN, new double[size]);
     }
 
-    public ColumnMatrix(double[] data) {
-        super(Objects.requireNonNull(data), COLUMN);
+    public ColumnMatrix(double ... data) {
+        super(COLUMN, Objects.requireNonNull(data));
     }
 
     @Override

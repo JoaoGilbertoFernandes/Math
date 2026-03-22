@@ -9,8 +9,8 @@ public abstract class VectorMatrix extends Matrix {
     private final int size;
     private final VectorType type;
 
-    public VectorMatrix(double[] data, VectorType type) {
-        super(vectorData(data, type));
+    public VectorMatrix(VectorType type, double ... data) {
+        super(vectorData(type, data));
         size = data.length;
         this.type = type;
     }
@@ -57,14 +57,14 @@ public abstract class VectorMatrix extends Matrix {
     }
 
     public double get(int index) {
-        return (type == ROW) ? getRow(index)[0] : getCol(index)[0];
+        return type == ROW ? getCol(index)[0] : getRow(index)[0];
     }
 
-    public int getSize() {
+    public int size() {
         return size;
     }
 
-    public VectorType getType() {
+    public VectorType type() {
         return type;
     }
 
@@ -137,7 +137,9 @@ public abstract class VectorMatrix extends Matrix {
         };
     }
 
-    private static double[][] vectorData(double[] data, VectorType type) {
+
+
+    private static double[][] vectorData(VectorType type, double[] data) {
         int size = data.length;
         if (type == ROW) {
             double[][] rowData = new double[1][size];

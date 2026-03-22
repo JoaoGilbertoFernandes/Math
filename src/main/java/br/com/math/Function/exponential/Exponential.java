@@ -1,12 +1,16 @@
-package br.com.math.function;
+package br.com.math.function.exponential;
 
+import br.com.math.function.Integrable;
 import org.jetbrains.annotations.NotNull;
 
-public record Exponential(double base, double amplitude, double rate)
-        implements Integrable {
+public record Exponential(double base, double amplitude, double rate) implements Integrable {
 
     public Exponential() {
         this(Math.E, 1.0, 1.0);
+    }
+
+    public Exponential(double amplitude, double rate) {
+        this(Math.E, amplitude, rate);
     }
 
     @Override
@@ -29,6 +33,11 @@ public record Exponential(double base, double amplitude, double rate)
         return new Exponential(base, (amplitude / (rate * Math.log(base))), rate);
     }
 
+    @Override
+    public Exponential multiply(double value) {
+        return new Exponential(base, value * amplitude, rate);
+    }
+
     public Exponential changeBase() {
         return changeBase(Math.E);
     }
@@ -42,8 +51,27 @@ public record Exponential(double base, double amplitude, double rate)
 
     @Override
     public @NotNull String toString() {
-        if (base == Math.E) return String.format("%.2f·e^(%.2f·x)", amplitude, rate);
-        return String.format("%.2f·%s^(%.2f·x)", amplitude, base, rate);
+        StringBuilder sb = new StringBuilder();
+        String expPrefix;
+        if (base == Math.E) expPrefix = "e^";
+        else expPrefix = String.format("%.2f^", base);
+
+        if (Math.abs(amplitude) != 1.0) {
+            sb.append(String.format("%.2f·", amplitude));
+        } else if (amplitude < 0.0) {
+            sb.append("-");
+        }
+
+        sb.append(expPrefix);
+        if (Math.abs(rate) != 1.0) {
+            sb.append(String.format("%.2f·x", rate));
+        }
+        else if (rate < 0.0) {
+            sb.append("-");
+        }
+
+        sb.append("x");
+        return sb.toString().trim();
     }
 
     @Override

@@ -7,11 +7,11 @@ import static br.com.math.matrix.vectorMatrix.VectorType.ROW;
 public class RowMatrix extends VectorMatrix {
 
     public RowMatrix(int size) {
-        super(new double[size], ROW);
+        super(ROW, new double[size]);
     }
 
     public RowMatrix(double[] data) {
-        super(Objects.requireNonNull(data), ROW);
+        super(ROW, Objects.requireNonNull(data));
     }
 
     @Override

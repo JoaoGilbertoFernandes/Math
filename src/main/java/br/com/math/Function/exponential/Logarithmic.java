@@ -1,13 +1,18 @@
-package br.com.math.function;
+package br.com.math.function.exponential;
 
+import br.com.math.function.Differentiable;
+import br.com.math.function.power.Reciprocal;
 import br.com.math.function.polynomial.Polynomial;
 import org.jetbrains.annotations.NotNull;
 
-public record Logarithmic(double base, double amplitude, double rate)
-        implements Differentiable {
+public record Logarithmic(double base, double amplitude, double rate) implements Differentiable {
 
     public Logarithmic() {
         this(Math.E, 1.0, 1.0);
+    }
+
+    public Logarithmic(double amplitude, double rate) {
+        this(Math.E, amplitude, rate);
     }
 
     public Logarithmic {
@@ -34,6 +39,11 @@ public record Logarithmic(double base, double amplitude, double rate)
                 .subtract(new Polynomial(1, amplitude / Math.log(base)));
     }
 
+    @Override
+    public Logarithmic multiply(double value) {
+        return new Logarithmic(base, value * amplitude, rate);
+    }
+
     public Logarithmic changeBase() {
         return changeBase(Math.E);
     }
@@ -47,18 +57,27 @@ public record Logarithmic(double base, double amplitude, double rate)
 
     @Override
     public @NotNull String toString() {
-        StringBuilder sb = new StringBuilder("f(x) = ");
-
+        StringBuilder sb = new StringBuilder();
         String logPrefix;
         if (base == Math.E) logPrefix = "ln(";
         else if (base == 10.0) logPrefix = "log(";
         else logPrefix = String.format("log<%.2f>(", base);
 
-        if (amplitude != 1.0) sb.append(String.format("%.2f·", amplitude));
+        if (Math.abs(amplitude) != 1.0) {
+            sb.append(String.format("%.2f·", amplitude));
+        } else if (amplitude < 0.0) {
+            sb.append("-");
+        }
 
         sb.append(logPrefix);
-        if (rate == 1.0) sb.append("x)");
-        else sb.append(String.format("%.2f·x)", rate));
+        if (Math.abs(rate) != 1.0) {
+            sb.append(String.format("%.2f·", rate));
+        }
+        else if (rate < 0.0) {
+            sb.append("-");
+        }
+
+        sb.append("x)");
         return sb.toString().trim();
     }
 

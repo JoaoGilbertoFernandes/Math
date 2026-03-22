@@ -1,4 +1,7 @@
-package br.com.math.function;
+package br.com.math.function.power;
+
+import br.com.math.function.Differentiable;
+import br.com.math.function.exponential.Logarithmic;
 
 public class Power implements Differentiable {
 
@@ -29,6 +32,7 @@ public class Power implements Differentiable {
 
     @Override
     public Differentiable derivative() {
+        if (degree == 0.0) return Differentiable.zeroFunction();
         return new Power(degree - 1, coefficient * degree);
     }
 
@@ -39,17 +43,39 @@ public class Power implements Differentiable {
         return new Power(degree + 1, coefficient / (degree + 1));
     }
 
-    public double getDegree() {
+    @Override
+    public Power multiply(double value) {
+        return new Power(degree, value * coefficient);
+    }
+
+    public double degree() {
         return degree;
     }
 
-    public double getCoefficient() {
+    public double coefficient() {
         return coefficient;
     }
 
     @Override
     public String toString() {
-        return String.format("%.2f·x^%.2f", coefficient, degree);
+        if (coefficient == 0.0) return Differentiable.zeroFunction().toString();
+        if (degree == 0.0) return Differentiable.constantFunction(coefficient).toString();
+        StringBuilder sb = new StringBuilder();
+        if (Math.abs(coefficient) != 1.0) {
+            sb.append(String.format("%.2f", coefficient));
+        } else if (coefficient < 0.0) {
+            sb.append("-");
+        }
+        if (Math.abs(degree) != 1.0) {
+            sb.append(String.format("x^%.2f", degree));
+        }
+        else if (degree < 0.0) {
+            sb.append("x^-1");
+        }
+        else {
+            sb.append("x");
+        }
+        return sb.toString();
     }
 
     @Override
