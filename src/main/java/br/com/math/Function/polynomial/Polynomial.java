@@ -131,12 +131,12 @@ public class Polynomial implements Integrable {
         else if (index == 1) {
             if (coef == 1.0) sb.append(arg);
             else if (coef == -1.0) sb.append("-").append(arg);
-            else sb.append(String.format("%.6f·", coef)).append(arg);
+            else sb.append(String.format("%.2f·", coef)).append(arg);
         }
         else {
             if (coef == 1.0) sb.append("x").append(superscript(index)).append(" ");
             else if (coef == -1.0) sb.append("-x").append(superscript(index)).append(" ");
-            else sb.append(String.format("%.6f·", get(index)))
+            else sb.append(String.format("%.2f·", get(index)))
                         .append("x").append(superscript(index));
         }
         for (int i = index + 1; i <= degree; i++) {
@@ -149,8 +149,9 @@ public class Polynomial implements Integrable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Polynomial pf)) return false;
+        if (pf.degree != degree) return false;
         for (int i = 0; i <= degree; i++) {
-            if (Math.abs(get(i) - pf.get(i)) > 1e-12) {
+            if (Math.abs(get(i) - pf.get(i)) > 1e-9) {
                 return false;
             }
         }
@@ -162,8 +163,8 @@ public class Polynomial implements Integrable {
         int result = 17;
         for (int i = 0; i < coefficients.size(); i++) {
             double coef = coefficients.get(i);
-            if (Math.abs(coef) > 1e-12) {
-                double normalized = Math.round(coef * 1e12) / 1e12;
+            if (Math.abs(coef) > 1e-9) {
+                double normalized = Math.round(coef * 1e9) / 1e9;
                 result = 31 * result + Double.hashCode(normalized);
                 result = 31 * result + i;
             }
@@ -204,9 +205,9 @@ public class Polynomial implements Integrable {
         } else if (coef == -1.0) {
             part.append("- ");
         } else if (coef > 0) {
-            part.append("+ ").append(String.format("%.6f·", coef));
+            part.append("+ ").append(String.format("%.2f·", coef));
         } else {
-            part.append("- ").append(String.format("%.6f·", Math.abs(coef)));
+            part.append("- ").append(String.format("%.2f·", Math.abs(coef)));
         }
         if (power == 1) {
             part.append(arg).append(" ");

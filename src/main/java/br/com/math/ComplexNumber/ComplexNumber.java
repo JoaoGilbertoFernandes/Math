@@ -17,8 +17,8 @@ public class ComplexNumber {
     }
 
     public ComplexNumber(Vector vector) {
-        real = vector.dotProduct(new Vector(1,0));
-        imaginary = vector.dotProduct(new Vector(0,1));
+        real = vector.dotProduct(new Vector(1, 0));
+        imaginary = vector.dotProduct(new Vector(0, 1));
     }
 
 
@@ -53,7 +53,9 @@ public class ComplexNumber {
     }
 
     public ComplexNumber divide(ComplexNumber other) {
-        return multiply(other.conjugate()).multiply(new ComplexNumber(Math.pow(other.norm(), -2), 0));
+        return multiply(other.conjugate()).multiply(
+                new ComplexNumber(Math.pow(other.norm(), -2), 0)
+        );
     }
 
     public ComplexNumber power(double exponent) {

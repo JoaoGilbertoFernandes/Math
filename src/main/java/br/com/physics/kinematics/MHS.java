@@ -2,7 +2,6 @@ package br.com.physics.kinematics;
 
 import br.com.math.function.power.Power;
 import br.com.math.function.trigonometric.*;
-import br.com.physics.dynamics.force.Force1D;
 
 public class MHS extends Motion1D {
 
@@ -23,13 +22,13 @@ public class MHS extends Motion1D {
 
     public double kinectEnergy(double mass, double x) {
         Power power = new Power(2, mass / 2);
-        return power.compose(speed()).apply(x);
+        return power.compose(getSpeedFunction()).apply(x);
     }
 
     public double potentialEnergy(double mass, double x) {
         double k = mass * frequency * frequency;
         Power power = new Power(2, k / 2);
-        return power.compose(position()).apply(x);
+        return power.compose(getPositionFunction()).apply(x);
     }
 
     public double mechanicEnergy(double mass) {

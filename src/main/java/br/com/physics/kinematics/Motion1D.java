@@ -15,63 +15,63 @@ public class Motion1D {
         accelerationFunction = equationOfMotion.derivative(2);
     }
 
-    public Differentiable position() {
+    public Differentiable getPositionFunction() {
         return positionFunction;
     }
 
-    public Differentiable speed() {
+    public Differentiable getSpeedFunction() {
         return speedFunction;
     }
 
-    public Differentiable acceleration() {
+    public Differentiable getAccelerationFunction() {
         return accelerationFunction;
     }
 
-    public double positionAt(double time) {
+    public double getPosition(double time) {
         validateTime(time);
-        return position().apply(time);
+        return getPositionFunction().apply(time);
     }
 
-    public double speedAt(double time) {
+    public double getSpeed(double time) {
         validateTime(time);
-        return speed().apply(time);
+        return getSpeedFunction().apply(time);
     }
 
-    public double accelerationAt(double time) {
+    public double getAcceleration(double time) {
         validateTime(time);
-        return acceleration().apply(time);
+        return getAccelerationFunction().apply(time);
     }
 
     public double avgSpeed(double initialTime, double finalTime) {
         validateTimeInterval(initialTime, finalTime);
-        return (positionAt(finalTime) - positionAt(initialTime)) / (finalTime - initialTime);
+        return (getPosition(finalTime) - getPosition(initialTime)) / (finalTime - initialTime);
     }
 
     public double avgAcceleration(double initialTime, double finalTime) {
         validateTimeInterval(initialTime, finalTime);
-        return (speedAt(finalTime) - speedAt(initialTime)) / (finalTime - initialTime);
+        return (getSpeed(finalTime) - getSpeed(initialTime)) / (finalTime - initialTime);
     }
 
     public boolean isForward(double time) {
         validateTime(time);
-        return speedAt(time) > 0.0;
+        return getSpeed(time) > 0.0;
     }
 
     public boolean isBackward(double time) {
         validateTime(time);
-        return speedAt(time) < 0.0;
+        return getSpeed(time) < 0.0;
     }
 
     public boolean isInRest(double time) {
-        return Math.abs(speedAt(time)) < 0.0;
+        return Math.abs(getSpeed(time)) < 0.0;
     }
 
     public boolean isAccelerated(double time) {
-        return accelerationAt(time) * speedAt(time) > 0.0;
+        return getAcceleration(time) * getSpeed(time) > 0.0;
     }
 
     public boolean isDecelerated(double time) {
-        return accelerationAt(time) * speedAt(time) < 0.0;
+        return getAcceleration(time) * getSpeed(time) < 0.0;
     }
 
     public boolean isUniform() {

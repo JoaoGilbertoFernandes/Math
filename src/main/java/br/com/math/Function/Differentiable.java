@@ -93,7 +93,7 @@ public interface Differentiable extends Function<Double, Double> {
                 if (isZeroFunction() || other.isZeroFunction()) {
                     return zeroFunction().toString();
                 }
-                return "(" + self + ")" + "·" + "(" + other.toString() + ")";
+                return "(" + self + ")" + "·" + "(" + other + ")";
             }
         };
     }
@@ -115,7 +115,8 @@ public interface Differentiable extends Function<Double, Double> {
             }
             @Override
             public boolean isZeroFunction() {
-                return outer.isZeroFunction() || (inner.isZeroFunction() && outer.apply(0.0) == 0.0);
+                return outer.isZeroFunction() ||
+                        (inner.isZeroFunction() && outer.apply(0.0) == 0.0);
             }
             @Override
             public Differentiable multiply(double value) {

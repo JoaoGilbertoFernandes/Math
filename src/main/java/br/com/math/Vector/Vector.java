@@ -105,7 +105,7 @@ public class Vector {
         validateSize(other);
         if (norm() == 0 || other.norm() == 0) return 0.0;
         double value = dotProduct(other) * 1 / (norm() * other.norm());
-        return Math.max(-1.0, Math.min(1.0, value));
+        return Math.clamp(value, -1.0, 1.0);
     }
 
     public double angle(Vector other) {

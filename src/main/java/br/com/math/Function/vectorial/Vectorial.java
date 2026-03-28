@@ -57,9 +57,21 @@ public class Vectorial {
         return new Vectorial(function);
     }
 
-    public Vector coordinates(double t) {
+    public Vector getVector(double t) {
         double[] data = functions.stream()
                 .mapToDouble(f -> f.apply(t))
+                .toArray();
+
+        return new Vector(data);
+    }
+
+    public Vector getVector(double ... position) {
+        return getVector(new Vector(position));
+    }
+
+    public Vector getVector(Vector position) {
+        double[] data = IntStream.range(0, size)
+                .mapToDouble(i -> functions.get(i).apply(position.get(i)))
                 .toArray();
 
         return new Vector(data);
@@ -136,6 +148,10 @@ public class Vectorial {
                 .toList();
 
         return new Vectorial(result);
+    }
+
+    public List<Differentiable> getFunctions() {
+        return functions;
     }
 
     public Differentiable get(int index) {

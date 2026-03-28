@@ -16,26 +16,26 @@ public class Motion {
 
     public List<Differentiable> position() {
         return motions.stream()
-                .map(Motion1D::position)
+                .map(Motion1D::getPositionFunction)
                 .toList();
     }
 
     public List<Differentiable> velocity() {
         return motions.stream()
-                .map(Motion1D::speed)
+                .map(Motion1D::getSpeedFunction)
                 .toList();
     }
 
     public List<Differentiable> acceleration() {
         return motions.stream()
-                .map(Motion1D::acceleration)
+                .map(Motion1D::getAccelerationFunction)
                 .toList();
     }
 
     public Vector positionAt(double time) {
         validateTime(time);
         double[] coordinates = motions.stream()
-                .mapToDouble(m -> m.positionAt(time))
+                .mapToDouble(m -> m.getPosition(time))
                 .toArray();
 
         return new Vector(coordinates);
@@ -44,7 +44,7 @@ public class Motion {
     public Vector velocityAt(double time) {
         validateTime(time);
         double[] coordinates = motions.stream()
-                .mapToDouble(m -> m.speedAt(time))
+                .mapToDouble(m -> m.getSpeed(time))
                 .toArray();
 
         return new Vector(coordinates);
@@ -53,7 +53,7 @@ public class Motion {
     public Vector accelerationAt(double time) {
         validateTime(time);
         double[] coordinates = motions.stream()
-                .mapToDouble(m -> m.accelerationAt(time))
+                .mapToDouble(m -> m.getAcceleration(time))
                 .toArray();
 
         return new Vector(coordinates);
