@@ -3,13 +3,15 @@ package br.com.physics.dynamics.force.gravitational;
 import br.com.math.function.Differentiable;
 import br.com.math.function.vectorial.Vectorial;
 import br.com.math.vector.Vector;
+import br.com.physics.dynamics.energy.ConservativeForce;
 
 import java.math.BigDecimal;
+import java.util.stream.IntStream;
 
 import static br.com.physics.dynamics.force.gravitational.CelestialBody.*;
 
 
-public class Gravitational {
+public class Gravitational implements ConservativeForce {
 
     private final BigDecimal mass;
     private final Vectorial field;
@@ -61,5 +63,14 @@ public class Gravitational {
 
     public Vectorial getValue() {
         return field.multiply(mass.doubleValue());
+    }
+
+    @Override
+    public Differentiable potential() {
+        Vectorial integral = field.integral();
+
+        return IntStream.range(0, field.size())
+                .mapToObj(integral::get)
+                .reduce(Differentiable.zeroFunction(), Differentiable::add);
     }
 }

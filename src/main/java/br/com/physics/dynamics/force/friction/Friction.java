@@ -25,40 +25,37 @@ public abstract class Friction {
 
 
 
-    public static final class StaticFriction extends Friction {
+    public static final class Static extends Friction {
 
-        private final BigDecimal maxValue;
-
-        public StaticFriction(double maxValue) {
+        public Static(double maxValue) {
             super(maxValue, STATIC);
-            this.maxValue = BigDecimal.valueOf(maxValue);
         }
 
-        public StaticFriction(double normalForce, double coefficient) {
+        public Static(double normalForce, double coefficient) {
             this(normalForce * coefficient);
             type.setCoefficient(coefficient);
         }
 
         public BigDecimal getValue(double force) {
-            if (maxValue.compareTo(BigDecimal.valueOf(force)) < 0) {
-                return maxValue;
+            if (value.compareTo(BigDecimal.valueOf(force)) < 0) {
+                return value;
             }
             return BigDecimal.valueOf(force);
         }
 
         public BigDecimal getMaxValue() {
-            return maxValue;
+            return value;
         }
     }
 
 
-    public static final class DynamicFriction extends Friction {
+    public static final class Dynamic extends Friction {
 
-        public DynamicFriction(double value) {
+        public Dynamic(double value) {
             super(value, DYNAMIC);
         }
 
-        public DynamicFriction(double normalForce, double coefficient) {
+        public Dynamic(double normalForce, double coefficient) {
             this(normalForce * coefficient);
             type.setCoefficient(coefficient);
         }
